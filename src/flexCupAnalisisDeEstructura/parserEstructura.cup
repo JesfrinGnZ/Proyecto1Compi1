@@ -1,0 +1,95 @@
+
+
+
+
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+
+package backend.analizadorParaTextoDeCliente;
+import java_cup.runtime.*;
+//import java.util.Date;
+//import java.util.ArrayList;
+//import javax.swing.tree.DefaultMutableTreeNode;
+//import backend.manejoDeDatos.*;
+
+
+
+parser code {:
+
+
+
+	// Connect this parser to a scanner!
+	public parser(AnalizadorLexicoTextoCliente lex) {
+		super(lex);
+	}
+
+    //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        System.out.println("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+        
+    }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        System.out.println("!!!!!!! Error Sintactico, Panic Mode !!!!!!! ");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+     
+    }
+
+:}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+terminal String         ACCION,ACCIONES,PARAMETROS,PARAMETRO,ATRIBUTOS,ATRIBUTO,NOMBRE,ETIQUETAS,ETIQUETA,VALOR,
+                        DIAGONAL,MENOR_QUE,MAYOR_QUE,CORCHETE_ABIERTO,CORCHETE_CERRADO,IGUAL,COMILLA,DIAGONAL_RECTA,
+                        NUEVO_SITIO_WEB,ID,USUARIO_CREACION,FECHA_CREACION,FECHA_MODIFICACION,USUARIO_MODIFICACION,
+                        BORRAR_SITIO_WEB,NUEVA_PAGINA,TITULO,SITIO,PADRE,BORRAR_PAGINA,MODIFICAR_PAGINA,
+                        AGREGAR_COMPONENTE,PAGINA,CLASE,BORRAR_COMPONENTE,MODIFICAR_COMPONENTE,
+                        PARRAFO,IMAGEN,VIDEO,MENU,TEXTO,ALINEACION,CENTRAR,IZQUIERDA,DERECHA,JUSTIFICAR,
+                        COLOR,ORIGEN,ALTURA,ANCHO,HTTPS,
+                        NUMERO,FORMATO_FECHA,IDENTIFICADOR,URL;
+
+non terminal Object     inicio,primeraEtiquetaXml,s,s1,s2,s3; 
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+start with inicio;
+
+/*
+inicio ::=  ACCION ACCIONES  {:System.out.println("ESTRUCTURA VALIDADA");:}
+             | error {:System.out.println("Error en la estructura");:};   
+*/
+
+inicio::=MENOR_QUE primeraEtiquetaXml;
+
+primeraEtiquetaXml::=ACCIONES MAYOR_QUE s MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
+                     ACCION NOMBRE IGUAL s1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE
+                     |error {:System.out,println("Error falta cierre digo yo"):};
+
+s::=s s2|s2;
+
+s2::= MENOR_QUE ACCION NOMBRE IGUAL s1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
+
+s1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE {:System.out.println("----->NUEVO SITIO WEB");:}|    
+      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE    {:System.out.println("----->BORRAR SITIO WEB");:}|
+      COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE {:System.out.println("----->NUEVA PAGINA");:}|
+      COMILLA BORRAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("----->BORRAR PAGINA");:}|
+      COMILLA MODIFICAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("----->MODIFICAR PAGINA");:}|
+      COMILLA AGREGAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("----->AGREGAR COMPONENTE");:}|
+      COMILLA BORRAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("----->BORRAR COMPONENTE");:}|
+      COMILLA MODIFICAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("----->MODIFICAR COMPONENTE");:};
+      
