@@ -156,7 +156,7 @@ Url=[[:jletterdigit:]|.|'\?'|'\-'|'_']+
 
 <YYINITIAL>     {Url}       {{System.out.println("Simbolo URL::"+yytext());return symbol(URL,yytext());}}
 
-{Espacio} 	{System.out.println("Espacio");}
+{Espacio} 	{/*IGNORAMOS*/}
 
 [^]     {System.out.println("Simbolo no valido"+yytext());}
 

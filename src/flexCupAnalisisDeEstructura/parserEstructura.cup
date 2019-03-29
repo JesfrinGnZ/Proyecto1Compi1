@@ -26,6 +26,7 @@ parser code {:
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
     {        
+        try {
         String lexema = s.value.toString();
         int fila = s.right;
         int columna = s.left;
@@ -33,13 +34,16 @@ parser code {:
         System.out.println("!!!!!!! Error Sintactico Recuperado !!!!!!!");
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+fila);
-        System.out.println("\t\tColumna: "+columna);
-        
+        System.out.println("\t\tColumna: "+columna); 
+        } catch (Exception e) {
+            System.out.println("Error Recuperable se esperaba mas simbolos en ultima fila");
+        } 
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
     {        
+    try {
         String lexema = s.value.toString();
         int fila = s.right;
         int columna = s.left;
@@ -47,8 +51,11 @@ parser code {:
         System.out.println("!!!!!!! Error Sintactico, Panic Mode !!!!!!! ");
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+fila);
-        System.out.println("\t\tColumna: "+columna);
-     
+        System.out.println("\t\tColumna: "+columna);  
+        } catch (Exception e) {
+            System.out.println("Error norecuperable se esperaba mas simbolos en ultima fila");
+        }
+        
     }
 
 :}
@@ -64,7 +71,7 @@ terminal String         ACCION,ACCIONES,PARAMETROS,PARAMETRO,ATRIBUTOS,ATRIBUTO,
                         COLOR,ORIGEN,ALTURA,ANCHO,HTTPS,
                         NUMERO,FORMATO_FECHA,IDENTIFICADOR,URL;
 
-non terminal Object     inicio,primeraEtiquetaXml,s,s1,s2,s3; 
+non terminal Object     inicio,primeraEtiquetaXml,m,m1,m2,m3,s,s1,s2,s3,s4; 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
 start with inicio;
@@ -76,20 +83,31 @@ inicio ::=  ACCION ACCIONES  {:System.out.println("ESTRUCTURA VALIDADA");:}
 
 inicio::=MENOR_QUE primeraEtiquetaXml;
 
-primeraEtiquetaXml::=ACCIONES MAYOR_QUE s MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
-                     ACCION NOMBRE IGUAL s1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE
-                     |error {:System.out,println("Error falta cierre digo yo"):};
+primeraEtiquetaXml::=ACCIONES MAYOR_QUE m MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
+                     ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
 
-s::=s s2|s2;
+m::=m m2|m2;
 
-s2::= MENOR_QUE ACCION NOMBRE IGUAL s1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
+m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
 
-s1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE {:System.out.println("----->NUEVO SITIO WEB");:}|    
-      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE    {:System.out.println("----->BORRAR SITIO WEB");:}|
-      COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE {:System.out.println("----->NUEVA PAGINA");:}|
-      COMILLA BORRAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("----->BORRAR PAGINA");:}|
-      COMILLA MODIFICAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("----->MODIFICAR PAGINA");:}|
-      COMILLA AGREGAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("----->AGREGAR COMPONENTE");:}|
-      COMILLA BORRAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("----->BORRAR COMPONENTE");:}|
-      COMILLA MODIFICAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("----->MODIFICAR COMPONENTE");:};
-      
+m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s m3 {:System.out.println("----->NUEVO SITIO WEB");:}|    
+      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s3 m3 {:System.out.println("------------------------>BORRAR SITIO WEB");:}|
+      COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>NUEVA PAGINA");:}|
+      COMILLA BORRAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR PAGINA");:}|
+      COMILLA MODIFICAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>MODIFICAR PAGINA");:}|
+      COMILLA AGREGAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>AGREGAR COMPONENTE");:}|
+      COMILLA BORRAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR COMPONENTE");:}|
+      COMILLA MODIFICAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>MODIFICAR COMPONENTE");:};
+    
+m3 ::=  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE;
+
+s::= s s1|s1;
+s1::= MENOR_QUE PARAMETRO NOMBRE IGUAL s2 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE;
+s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO{:System.out.println("----------->ID PARA NUEVO SITIO WEB");:}|
+      COMILLA USUARIO_CREACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO|
+      COMILLA USUARIO_MODIFICACION  COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO|
+      COMILLA FECHA_CREACION COMILLA MAYOR_QUE CORCHETE_ABIERTO FORMATO_FECHA CORCHETE_CERRADO |
+      COMILLA FECHA_MODIFICACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO FORMATO_FECHA CORCHETE_CERRADO;
+
+s3::=  MENOR_QUE PARAMETRO NOMBRE IGUAL s4 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE;
+s4::=  COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO{:System.out.println("----------->ID PARA BORRAR SITIO WEB");:};

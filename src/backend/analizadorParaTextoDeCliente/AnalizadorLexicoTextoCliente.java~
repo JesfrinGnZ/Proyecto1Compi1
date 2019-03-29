@@ -1215,7 +1215,7 @@ public class AnalizadorLexicoTextoCliente implements java_cup.runtime.Scanner {
             // fall through
           case 58: break;
           case 2: 
-            { System.out.println("Espacio");
+            { /*IGNORAMOS*/
             } 
             // fall through
           case 59: break;

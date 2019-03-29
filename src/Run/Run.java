@@ -30,16 +30,20 @@ public class Run {
 //"                        PARRAFO,IMAGEN,VIDEO,MENU,TEXTO,ALINEACION,CENTRAR,IZQUIERDA,DERECHA,JUSTIFICAR,\n" +
 //"                        COLOR,ORIGEN,ALTURA,ANCHO,HTTPS,00";
 
-        String instruccion="<acciones>\n" +
-"<accion nombre=\"NUEVO_SITIO_WEB\"></accion>\n" +
-"<accion nombre=\"BORRAR_SITIO_WEB\"></accion>\n" +
-"<accion nombre=\"NUEVA_PAGINA\"></accion>\n" +
-"<accion nombre=\"BORRAR_PAGINA\"></accion>\n" +
-"<accion nombre=\"MODIFICAR_PAGINA\"></accion>\n" +
-"<accion nombre=\"AGREGAR_COMPONENTE\"></accion>\n" +
-"<accion nombre=\"BORRAR_COMPONENTE\"></accion>\n" +
-"<accion nombre=\"MODIFICAR_COMPONENTE\"></accion>\n" +
-"";
+        String instruccion="<accion nombre=\"NUEVO_SITIO_WEB\">\n" +
+"        <parametros>\n" +
+"            <parametro nombre = \"ID\">\n" +
+"                [RicardoAndrade]\n" +
+"            </parametro>\n" +
+"        </parametros>\n" +
+"    </accion>\n" +
+"    @accion nombre=\"BORRAR_SITIO_WEB\">\n" +
+"        <parametros>\n" +
+"            <parametro nombre = \"ID\">\n" +
+"                [ElClubo]\n" +
+"            </parametro>\n" +
+"        </parametros>\n" +
+"    </accion>";
         AnalizadorLexicoTextoCliente lexico = new AnalizadorLexicoTextoCliente(new BufferedReader(new StringReader(instruccion)));
         
         parser sintactico = new parser(lexico);
