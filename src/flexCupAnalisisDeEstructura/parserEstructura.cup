@@ -1,12 +1,11 @@
-
-
-
-
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 
 package backend.analizadorParaTextoDeCliente;
 import java_cup.runtime.*;
+import backend.elementos.*;
+import backend.excepciones.*;
+import frontend.gui.*;
 //import java.util.Date;
 //import java.util.ArrayList;
 //import javax.swing.tree.DefaultMutableTreeNode;
@@ -17,16 +16,26 @@ import java_cup.runtime.*;
 parser code {:
 
 
+    int fila,columna;
+    String lexema;
+    //  VARIABLES
+    private String valor;
+    private SitioWeb sitioWeb;
+    private Usuario usuario;
+    private ClienteFrame clienteFrame;
 
-	// Connect this parser to a scanner!
-	public parser(AnalizadorLexicoTextoCliente lex) {
-		super(lex);
-	}
+    // Connect this parser to a scanner!
+    public parser(AnalizadorLexicoTextoCliente lex,Usuario usuario,ClienteFrame clienteFrame) {
+	super(lex);
+        this.usuario=usuario;
+        this.clienteFrame=clienteFrame;
+    }
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
     {        
         try {
+        this.lexema =s.value.toString();
         String lexema = s.value.toString();
         int fila = s.right;
         int columna = s.left;
@@ -56,6 +65,27 @@ parser code {:
             System.out.println("Error norecuperable se esperaba mas simbolos en ultima fila");
         }
         
+    }
+
+    private void iniciarSitioWeb(Object i,String tipo){
+        if(sitioWeb==null){
+            System.out.println("el sitio ES NULO se iniciara uno nuevo");
+            sitioWeb=new SitioWeb();
+        }else{
+            System.out.println("el sitio NO ES NULO se seguira almacenando");
+        }   
+
+        if(i!=null){
+            String valor=i.toString();
+        System.out.println("VALOR:"+valor+"TIPO:"+tipo);
+        if(sitioWeb.darValores(valor,tipo)){
+            System.out.println("Se asigno");
+        }else{
+            System.out.println("No asigno");
+        }
+        }else{
+            System.out.println("I es nulo");
+        }   
     }
 
 :}
@@ -90,8 +120,10 @@ m::=m m2|m2;
 
 m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
 
-m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s m3 {:System.out.println("----->NUEVO SITIO WEB");:}|    
-      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s3 m3 {:System.out.println("------------------------>BORRAR SITIO WEB");:}|
+m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s:i m3 
+       {:if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");};}sitioWeb=null;System.out.println("----->NUEVO SITIO WEB VALOR::::::"+i);:}|    
+      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s3 m3 
+       {:System.out.println("------------------------>BORRAR SITIO WEB");if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");}}sitioWeb=null;:}|
       COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>NUEVA PAGINA");:}|
       COMILLA BORRAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR PAGINA");:}|
       COMILLA MODIFICAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>MODIFICAR PAGINA");:}|
@@ -101,13 +133,27 @@ m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s
     
 m3 ::=  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE;
 
-s::= s s1|s1;
-s1::= MENOR_QUE PARAMETRO NOMBRE IGUAL s2 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE;
-s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO{:System.out.println("----------->ID PARA NUEVO SITIO WEB");:}|
-      COMILLA USUARIO_CREACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO|
-      COMILLA USUARIO_MODIFICACION  COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO|
-      COMILLA FECHA_CREACION COMILLA MAYOR_QUE CORCHETE_ABIERTO FORMATO_FECHA CORCHETE_CERRADO |
-      COMILLA FECHA_MODIFICACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO FORMATO_FECHA CORCHETE_CERRADO;
 
-s3::=  MENOR_QUE PARAMETRO NOMBRE IGUAL s4 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE;
-s4::=  COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO{:System.out.println("----------->ID PARA BORRAR SITIO WEB");:};
+//--------------------------------------------->NUEVO_SITIO_WEB<--------------------------------------------
+s::= s s1:i {:iniciarSitioWeb(i,valor);System.out.println("----------->   ValoresPS"+i);RESULT =i;:}|s1:i {:iniciarSitioWeb(i,valor);System.out.println("----------->   ValoresPS"+i);RESULT =i;:};
+s1::= MENOR_QUE PARAMETRO NOMBRE IGUAL s2:i1 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE{:System.out.println("----------->   Valores"+i1);RESULT =i1;:}
+    |   error:i {:System.out.println("ERRRROROROROROR"+i);fila=ileft;columna=iright;System.out.println("FILA:"+fila+" "+"COLUMNA:"+columna);clienteFrame.mostrarError("sintactico",fila,columna,lexema);:};
+
+s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
+                {:RESULT =i;valor="id";:}|
+      COMILLA USUARIO_CREACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO 
+                {:RESULT =i;valor="usuarioCreacion";:}|
+      COMILLA USUARIO_MODIFICACION  COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
+                {:RESULT =i;valor="usuarioModificacion";:}|
+      COMILLA FECHA_CREACION COMILLA MAYOR_QUE CORCHETE_ABIERTO FORMATO_FECHA:i CORCHETE_CERRADO 
+                {:RESULT =i;valor="fechaCreacion";:}|
+      COMILLA FECHA_MODIFICACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO FORMATO_FECHA:i CORCHETE_CERRADO
+                 {:RESULT =i;valor="fechaModificacion";:};
+
+//--------------------------------------------->BORRAR_SITIO_WEB<--------------------------------------------
+
+s3::=  MENOR_QUE PARAMETRO NOMBRE IGUAL s4:i MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
+        {:iniciarSitioWeb(i,valor);:}
+ | error {:System.out.println("ERRRROROROROROR");:};
+s4::=  COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
+        {:System.out.println("IDENTIFICADOR:"+i);RESULT=i;valor="id";:};
