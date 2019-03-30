@@ -65,10 +65,10 @@ public class ClienteFrame extends javax.swing.JFrame {
         });
 
         numeroDeColumnaLabel.setFont(new java.awt.Font("TlwgTypewriter", 0, 18)); // NOI18N
-        numeroDeColumnaLabel.setText("Columna#");
+        numeroDeColumnaLabel.setText("#Columna");
 
         numeroDeFilaLabel.setFont(new java.awt.Font("TlwgTypewriter", 0, 18)); // NOI18N
-        numeroDeFilaLabel.setText("Fila#");
+        numeroDeFilaLabel.setText("#Linea");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -173,6 +173,7 @@ public class ClienteFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void enviarTextoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarTextoButtonActionPerformed
+        this.erroresTextArea.setText("");
         analizarTexto();
     }//GEN-LAST:event_enviarTextoButtonActionPerformed
 
@@ -182,7 +183,7 @@ public class ClienteFrame extends javax.swing.JFrame {
             int fila = textoDeClienteTextArea.getLineOfOffset(pos) + 1; //devuelve la fila
             int columna = pos - textoDeClienteTextArea.getLineStartOffset(fila - 1) + 1; //devuelve la columna
             this.numeroDeColumnaLabel.setText("#Columna:" + " " + columna + "");
-            this.numeroDeFilaLabel.setText("#Fila:" + " " + fila);
+            this.numeroDeFilaLabel.setText("#Linea:" + " " + fila);
 
         } catch (BadLocationException exc) {
         }
@@ -222,8 +223,10 @@ public class ClienteFrame extends javax.swing.JFrame {
         String texto;
         if(tipo.equalsIgnoreCase("lexico")){
             texto="Error LEXICO en linea:"+linea+" "+"Columna:"+columna+" "+"Lexema:"+lexema+"\n";
-        }else{
+        }else if(tipo.equalsIgnoreCase("sintactico")){
             texto="Error SINTACTICO linea:"+linea+" "+"Columna:"+columna+" "+"Lexema:"+lexema+"\n";
+        }else{
+            texto="Error SINTACTICO VALOR REPETIDO linea:"+linea+" "+"Columna:"+columna+" "+"Lexema:"+lexema+"\n";
         }
         
         this.erroresTextArea.append(texto);

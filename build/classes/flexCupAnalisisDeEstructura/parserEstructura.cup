@@ -67,7 +67,7 @@ parser code {:
         
     }
 
-    private void iniciarSitioWeb(Object i,String tipo){
+    private void iniciarSitioWeb(Object i,String tipo,int ileft,int iright){
         if(sitioWeb==null){
             System.out.println("el sitio ES NULO se iniciara uno nuevo");
             sitioWeb=new SitioWeb();
@@ -77,12 +77,13 @@ parser code {:
 
         if(i!=null){
             String valor=i.toString();
-        System.out.println("VALOR:"+valor+"TIPO:"+tipo);
-        if(sitioWeb.darValores(valor,tipo)){
-            System.out.println("Se asigno");
-        }else{
-            System.out.println("No asigno");
-        }
+            System.out.println("VALOR:"+valor+"TIPO:"+tipo);
+            if(sitioWeb.darValores(valor,tipo)){
+                System.out.println("Se asigno");
+            }else{
+                System.out.println("No asigno");
+                clienteFrame.mostrarError("sintactico repetitivo",ileft,iright,i.toString());
+            }
         }else{
             System.out.println("I es nulo");
         }   
@@ -114,7 +115,8 @@ inicio ::=  ACCION ACCIONES  {:System.out.println("ESTRUCTURA VALIDADA");:}
 inicio::=MENOR_QUE primeraEtiquetaXml;
 
 primeraEtiquetaXml::=ACCIONES MAYOR_QUE m MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
-                     ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
+                     ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|
+                     error:i {:System.out.println("Error para signo:"+i+"Linea:"+ileft+"Columna:"+1);:};
 
 m::=m m2|m2;
 
@@ -135,9 +137,9 @@ m3 ::=  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE;
 
 
 //--------------------------------------------->NUEVO_SITIO_WEB<--------------------------------------------
-s::= s s1:i {:iniciarSitioWeb(i,valor);System.out.println("----------->   ValoresPS"+i);RESULT =i;:}|s1:i {:iniciarSitioWeb(i,valor);System.out.println("----------->   ValoresPS"+i);RESULT =i;:};
+s::= s s1:i {:iniciarSitioWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:}|s1:i {:iniciarSitioWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:};
 s1::= MENOR_QUE PARAMETRO NOMBRE IGUAL s2:i1 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE{:System.out.println("----------->   Valores"+i1);RESULT =i1;:}
-    |   error:i {:System.out.println("ERRRROROROROROR"+i);fila=ileft;columna=iright;System.out.println("FILA:"+fila+" "+"COLUMNA:"+columna);clienteFrame.mostrarError("sintactico",fila,columna,lexema);:};
+    |   error:i {:fila=ileft;columna=iright;clienteFrame.mostrarError("sintactico",fila,columna,lexema);:};
 
 s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
                 {:RESULT =i;valor="id";:}|
@@ -153,7 +155,7 @@ s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CER
 //--------------------------------------------->BORRAR_SITIO_WEB<--------------------------------------------
 
 s3::=  MENOR_QUE PARAMETRO NOMBRE IGUAL s4:i MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
-        {:iniciarSitioWeb(i,valor);:}
- | error {:System.out.println("ERRRROROROROROR");:};
+        {:iniciarSitioWeb(i,valor,ileft,iright);:}
+ | error:i {:fila=ileft;columna=iright;clienteFrame.mostrarError("sintactico",fila,columna,lexema);:};
 s4::=  COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
         {:System.out.println("IDENTIFICADOR:"+i);RESULT=i;valor="id";:};
