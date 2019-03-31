@@ -4,7 +4,7 @@
 
 package backend.analizadorParaTextoDeCliente;
 import java_cup.runtime.*;
-import static backend.analizadorParaTextoDeCliente.sym.*;
+import static backendd.analizadorParaTextoDeCliente.sym.*;
 import frontend.gui.*;
 
 

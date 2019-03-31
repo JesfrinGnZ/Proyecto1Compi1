@@ -257,7 +257,7 @@ public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
         this.clienteFrame.mostrarErrorSintactico("NO HAS CONTROLADO ESTE ERROR");
         } catch (Exception e) {
             //System.out.println("ERROR EN LA ESTRUCUTURA PRINCIPAL acciones");
-            this.clienteFrame.mostrarErrorSintactico("ERROR EN LA ESTRUCUTURA PRINCIPAL acciones");
+            this.clienteFrame.mostrarErrorSintactico("Error SINTACTICO en la estructura acciones");
         }
         
     }
@@ -346,7 +346,7 @@ class CUP$parser$actions {
           case 3: // inicio ::= error 
             {
               Object RESULT =null;
-		System.out.println("ERROR EN LA ESTRUCUTURA PRINCIPAL accion o acciones");
+		clienteFrame.mostrarErrorSintactico("Error SINTACTICO en la estructura principal accion");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -382,7 +382,7 @@ class CUP$parser$actions {
           case 7: // m2 ::= error 
             {
               Object RESULT =null;
-		System.out.println("ERROR EN ACCION Y VAMONOS A ACCION AJJAJAJAJAJAJAJAJAJAJAJAJAJJAJAJAJAJAJAJ PARAMETROSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("m2",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -502,10 +502,7 @@ class CUP$parser$actions {
           case 19: // s1 ::= error 
             {
               Object RESULT =null;
-		int ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
-		int iright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object i = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		fila=ileft;columna=iright;clienteFrame.mostrarError("sintactico",fila,columna,lexema);
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s1",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -586,10 +583,7 @@ class CUP$parser$actions {
           case 26: // s3 ::= error 
             {
               Object RESULT =null;
-		int ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
-		int iright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object i = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		fila=ileft;columna=iright;clienteFrame.mostrarError("sintactico",fila,columna,lexema);
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s3",8, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

@@ -122,13 +122,13 @@ inicio ::=  ACCION ACCIONES  {:System.out.println("ESTRUCTURA VALIDADA");:}
 //<accion(es)> s </accion(es)>  el error se mostrara en la fila 1 ya que se refiere a que no existio la cerradura
 inicio::=MENOR_QUE ACCIONES MAYOR_QUE m MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
          MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|
-         error {:this.clienteFrame.mostrarErrorSintactico("Error SINTACTICO en la estructura principal accion");;:};
+         error {:clienteFrame.mostrarErrorSintactico("Error SINTACTICO en la estructura principal accion");:};
 
 
 
 m::=m m2|m2;
 
-m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|error {:System.out.println("ERROR EN ACCION Y VAMONOS A ACCION AJJAJAJAJAJAJAJAJAJAJAJAJAJJAJAJAJAJAJAJ PARAMETROSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");:};
+m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|error;
 
 m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s:i  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE
        {:if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");};}sitioWeb=null;System.out.println("----->NUEVO SITIO WEB VALOR::::::"+i);:}|    
@@ -148,7 +148,7 @@ m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s
 //--------------------------------------------->NUEVO_SITIO_WEB<--------------------------------------------
 s::= s s1:i {:iniciarSitioWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:}|s1:i {:iniciarSitioWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:};
 s1::= MENOR_QUE PARAMETRO NOMBRE IGUAL s2:i1 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE{:System.out.println("----------->   Valores"+i1);RESULT =i1;:}
-    |   error:i {:fila=ileft;columna=iright;clienteFrame.mostrarError("sintactico",fila,columna,lexema);:};
+    |   error;
 
 s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
                 {:RESULT =i;valor="id";:}|
@@ -165,6 +165,6 @@ s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CER
 
 s3::=  MENOR_QUE PARAMETRO NOMBRE IGUAL s4:i MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
         {:iniciarSitioWeb(i,valor,ileft,iright);:}
- | error:i {:fila=ileft;columna=iright;clienteFrame.mostrarError("sintactico",fila,columna,lexema);:};
+ | error;
 s4::=  COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
         {:System.out.println("IDENTIFICADOR:"+i);RESULT=i;valor="id";:};
