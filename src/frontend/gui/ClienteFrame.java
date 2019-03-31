@@ -231,4 +231,8 @@ public class ClienteFrame extends javax.swing.JFrame {
         
         this.erroresTextArea.append(texto);
     }
+    
+    public void mostrarErrorSintactico(String mensaje){
+        this.erroresTextArea.append(mensaje+"\n");
+    }
 }

@@ -37,32 +37,37 @@ parser code {:
         try {
         this.lexema =s.value.toString();
         String lexema = s.value.toString();
-        int fila = s.right;
-        int columna = s.left;
-        
+        int fila = s.left;
+        int columna = s.right;
+        /*
         System.out.println("!!!!!!! Error Sintactico Recuperado !!!!!!!");
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+fila);
         System.out.println("\t\tColumna: "+columna); 
+        */
+        this.clienteFrame.mostrarError("sintactico",fila,columna,lexema);
         } catch (Exception e) {
-            System.out.println("Error Recuperable se esperaba mas simbolos en ultima fila");
+            //System.out.println("Error Recuperable se esperaba mas simbolos en ultima fila");
         } 
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
-    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
     {        
     try {
         String lexema = s.value.toString();
-        int fila = s.right;
-        int columna = s.left;
-        
+        int fila = s.left;
+        int columna = s.right;
+        /*
         System.out.println("!!!!!!! Error Sintactico, Panic Mode !!!!!!! ");
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+fila);
-        System.out.println("\t\tColumna: "+columna);  
+        System.out.println("\t\tColumna: "+columna); */
+
+        this.clienteFrame.mostrarErrorSintactico("NO HAS CONTROLADO ESTE ERROR");
         } catch (Exception e) {
-            System.out.println("Error norecuperable se esperaba mas simbolos en ultima fila");
+            //System.out.println("ERROR EN LA ESTRUCUTURA PRINCIPAL acciones");
+            this.clienteFrame.mostrarErrorSintactico("Error SINTACTICO en la estructura acciones");
         }
         
     }
@@ -102,7 +107,7 @@ terminal String         ACCION,ACCIONES,PARAMETROS,PARAMETRO,ATRIBUTOS,ATRIBUTO,
                         COLOR,ORIGEN,ALTURA,ANCHO,HTTPS,
                         NUMERO,FORMATO_FECHA,IDENTIFICADOR,URL;
 
-non terminal Object     inicio,primeraEtiquetaXml,m,m1,m2,m3,s,s1,s2,s3,s4; 
+non terminal Object     inicio,primeraEtiquetaXml,m,m1,m2,s,s1,s2,s3,s4; 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
 start with inicio;
@@ -112,19 +117,22 @@ inicio ::=  ACCION ACCIONES  {:System.out.println("ESTRUCTURA VALIDADA");:}
              | error {:System.out.println("Error en la estructura");:};   
 */
 
-inicio::=MENOR_QUE primeraEtiquetaXml;
+//inicio::=MENOR_QUE primeraEtiquetaXml;
 
-primeraEtiquetaXml::=ACCIONES MAYOR_QUE m MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
-                     ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|
-                     error:i {:System.out.println("Error para signo:"+i+"Linea:"+ileft+"Columna:"+1);:};
+//<accion(es)> s </accion(es)>  el error se mostrara en la fila 1 ya que se refiere a que no existio la cerradura
+inicio::=MENOR_QUE ACCIONES MAYOR_QUE m MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
+         MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|
+         error {:this.clienteFrame.mostrarErrorSintactico("Error SINTACTICO en la estructura principal accion");;:};
+
+
 
 m::=m m2|m2;
 
-m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
+m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|error {:System.out.println("ERROR EN ACCION Y VAMONOS A ACCION AJJAJAJAJAJAJAJAJAJAJAJAJAJJAJAJAJAJAJAJ PARAMETROSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");:};
 
-m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s:i m3 
+m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s:i  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE
        {:if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");};}sitioWeb=null;System.out.println("----->NUEVO SITIO WEB VALOR::::::"+i);:}|    
-      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s3 m3 
+      COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s3 MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE 
        {:System.out.println("------------------------>BORRAR SITIO WEB");if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");}}sitioWeb=null;:}|
       COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>NUEVA PAGINA");:}|
       COMILLA BORRAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR PAGINA");:}|
@@ -132,8 +140,9 @@ m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s
       COMILLA AGREGAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>AGREGAR COMPONENTE");:}|
       COMILLA BORRAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR COMPONENTE");:}|
       COMILLA MODIFICAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>MODIFICAR COMPONENTE");:};
-    
-m3 ::=  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE;
+      
+
+//m3 ::=  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE|error;
 
 
 //--------------------------------------------->NUEVO_SITIO_WEB<--------------------------------------------
