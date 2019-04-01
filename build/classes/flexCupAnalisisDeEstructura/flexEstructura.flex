@@ -164,5 +164,5 @@ Url=[[:jletterdigit:]|.|'\?'|'\-'|'_']+
 
 {Espacio} 	{/*IGNORAMOS*/}
 
-[^]     {clienteFrame.mostrarError("lexico",yyline+1,yycolumn+1,yytext());}
+[^]     {clienteFrame.mostrarError("lexico",yyline+1,yycolumn+1,yytext());clienteFrame.setSeDebeEnviarElTexto(false);}
 

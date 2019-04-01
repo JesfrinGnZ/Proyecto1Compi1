@@ -1229,7 +1229,7 @@ public class AnalizadorLexicoTextoCliente implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { clienteFrame.mostrarError("lexico",yyline+1,yycolumn+1,yytext());
+            { clienteFrame.mostrarError("lexico",yyline+1,yycolumn+1,yytext());clienteFrame.setSeDebeEnviarElTexto(false);
             } 
             // fall through
           case 58: break;

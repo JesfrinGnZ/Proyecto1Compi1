@@ -63,6 +63,12 @@ public class PaginaWeb {
                     return true;
                 }
                 break;
+            case "fechaModificacion":
+                if (this.fechaModificacion == null) {
+                    this.fechaModificacion = valor;
+                    return true;
+                }
+                break;
             case "usuarioModificacion":
                 if (this.usuarioModificacion == null) {
                     this.usuarioModificacion = valor;
@@ -72,26 +78,39 @@ public class PaginaWeb {
         }
         return false;
     }
-    
-     /**
+
+    /**
      * Verifica si el objeto cuenta con los datos obligatorios para creacion
+     *
      * @throws backend.excepciones.FaltaDeAtributoObligatorioException
      */
-    public void verificarDatosObligatoriosParaCreacion() throws FaltaDeAtributoObligatorioException{
-        if(this.id==null || this.sitio==null || this.padre==null){
+    public void verificarDatosObligatoriosParaCreacion() throws FaltaDeAtributoObligatorioException {
+        if (this.id == null || this.sitio == null || this.padre == null) {
             throw new FaltaDeAtributoObligatorioException();
         }
     }
-    
+
     /**
      * Verifica si el objeto cuenta con los datos obligatorios para borrar
-     * @throws FaltaDeAtributoObligatorioException 
+     *
+     * @throws FaltaDeAtributoObligatorioException
      */
-    public void verificarDatosObligatoriosParaBorrar() throws FaltaDeAtributoObligatorioException{
-        if(this.id==null){
+    public void verificarDatosObligatoriosParaBorrar() throws FaltaDeAtributoObligatorioException {
+        if (this.id == null) {
             throw new FaltaDeAtributoObligatorioException();
         }
     }
-    
-    
+
+    public void escribirDatos() {
+        System.out.println("Id:" + this.id);
+        System.out.println("Titulo:" + this.titulo);
+        System.out.println("sitio:" + this.sitio);
+        System.out.println("padre" + this.padre);
+        System.out.println("UsuarioCreacion:" + this.usuarioCreacion);
+        System.out.println("FechaCreacion:" + this.fechaDeCreacion);
+        System.out.println("FechaModificacion:" + this.fechaModificacion);
+        System.out.println("UsuarioModificacion:" + this.usuarioModificacion);
+
+    }
+
 }
