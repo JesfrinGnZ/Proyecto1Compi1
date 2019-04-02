@@ -24,7 +24,6 @@ FormatoFecha=[1-9][0-9][0-9][0-9]["-"][0-1][1-9]["-"][0-1][1-9]
 SignosEspeciales =["_"|"-"|"$"]
 Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 //Url =https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
-Url=[[:jletterdigit:]|.|'\?'|'\-'|'_']+
 
 %{
   StringBuilder string = new StringBuilder();
@@ -152,15 +151,24 @@ Url=[[:jletterdigit:]|.|'\?'|'\-'|'_']+
 
 <YYINITIAL>     "ANCHO"       {return symbol(ANCHO,yytext());}
 
-<YYINITIAL>     "https:"      {return symbol(HTTPS,yytext());}   
-
 <YYINITIAL>     {FormatoFecha}  {return symbol(FORMATO_FECHA,yytext());}
 
 <YYINITIAL>     {Digitos}     {return symbol(NUMERO,yytext());}
 
 <YYINITIAL>     {Id} {return symbol(IDENTIFICADOR,yytext());}   
 
-<YYINITIAL>     {Url}       {System.out.println("URL"+yytext());return symbol(URL,yytext());}
+<YYINITIAL> "#"([a-fA-F]|[0-9]){6}      {System.out.println("Codigo color:"+yytext());return symbol(CODIGO_COLOR,yytext());}  
+
+<YYINITIAL> "\""~"\""     {System.out.println("Oracion:"+yytext());return symbol(ORACION_ETIQUETA,yytext());}  
+
+<YYINITIAL> "["~"]"     {System.out.println("Oracion:"+yytext());return symbol(ORACION,yytext());}  
+
+<YYINITIAL> ^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)( [a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$    {System.out.println("URL"+yytext());return symbol(URL,yytext());}
+
+<YYINITIAL>  ~"|"     {System.out.println("ETIQUETA_MENU:"+yytext());return symbol(ETIQUETA_MENU,yytext());}
+
+<YYINITIAL>  ~"]"     {System.out.println("ETIQUETA_MENU_FIN:"+yytext());return symbol(ETIQUETA_MENU_FIN,yytext());}  
+  
 
 {Espacio} 	{/*IGNORAMOS*/}
 

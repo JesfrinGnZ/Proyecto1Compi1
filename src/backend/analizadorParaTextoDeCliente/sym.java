@@ -9,21 +9,22 @@ package backend.analizadorParaTextoDeCliente;
 public class sym {
   /* terminals */
   public static final int DIAGONAL = 12;
-  public static final int NUMERO = 53;
+  public static final int NUMERO = 52;
   public static final int ALINEACION = 43;
   public static final int BORRAR_PAGINA = 31;
   public static final int PAGINA = 34;
-  public static final int HTTPS = 52;
   public static final int PARAMETROS = 4;
   public static final int CORCHETE_CERRADO = 16;
   public static final int NOMBRE = 8;
-  public static final int FORMATO_FECHA = 54;
+  public static final int FORMATO_FECHA = 53;
   public static final int ANCHO = 51;
+  public static final int ORACION = 57;
   public static final int IZQUIERDA = 45;
   public static final int VIDEO = 40;
   public static final int ETIQUETAS = 9;
+  public static final int CODIGO_COLOR = 55;
   public static final int MENU = 41;
-  public static final int IDENTIFICADOR = 55;
+  public static final int IDENTIFICADOR = 54;
   public static final int IGUAL = 17;
   public static final int CENTRAR = 44;
   public static final int TITULO = 28;
@@ -38,7 +39,7 @@ public class sym {
   public static final int COMILLA = 18;
   public static final int FECHA_MODIFICACION = 24;
   public static final int MAYOR_QUE = 14;
-  public static final int URL = 56;
+  public static final int URL = 58;
   public static final int ATRIBUTOS = 6;
   public static final int BORRAR_SITIO_WEB = 26;
   public static final int ATRIBUTO = 7;
@@ -48,6 +49,7 @@ public class sym {
   public static final int FECHA_CREACION = 23;
   public static final int NUEVO_SITIO_WEB = 20;
   public static final int USUARIO_CREACION = 22;
+  public static final int ETIQUETA_MENU_FIN = 60;
   public static final int VALOR = 11;
   public static final int DERECHA = 46;
   public static final int IMAGEN = 39;
@@ -58,12 +60,14 @@ public class sym {
   public static final int AGREGAR_COMPONENTE = 33;
   public static final int PARAMETRO = 5;
   public static final int ACCIONES = 3;
+  public static final int ORACION_ETIQUETA = 56;
   public static final int SITIO = 29;
   public static final int MENOR_QUE = 13;
   public static final int TEXTO = 42;
   public static final int ETIQUETA = 10;
   public static final int ALTURA = 50;
   public static final int JUSTIFICAR = 47;
+  public static final int ETIQUETA_MENU = 59;
   public static final int MODIFICAR_PAGINA = 32;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -118,11 +122,15 @@ public class sym {
   "ORIGEN",
   "ALTURA",
   "ANCHO",
-  "HTTPS",
   "NUMERO",
   "FORMATO_FECHA",
   "IDENTIFICADOR",
-  "URL"
+  "CODIGO_COLOR",
+  "ORACION_ETIQUETA",
+  "ORACION",
+  "URL",
+  "ETIQUETA_MENU",
+  "ETIQUETA_MENU_FIN"
   };
 }
 
