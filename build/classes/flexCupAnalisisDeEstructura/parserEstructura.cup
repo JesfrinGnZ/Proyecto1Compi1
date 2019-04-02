@@ -11,8 +11,6 @@ import frontend.gui.*;
 //import javax.swing.tree.DefaultMutableTreeNode;
 //import backend.manejoDeDatos.*;
 
-
-
 parser code {:
 
 
@@ -122,131 +120,42 @@ terminal String         ACCION,ACCIONES,PARAMETROS,PARAMETRO,ATRIBUTOS,ATRIBUTO,
                         COLOR,ORIGEN,ALTURA,ANCHO,HTTPS,
                         NUMERO,FORMATO_FECHA,IDENTIFICADOR,URL;
 
-non terminal Object     inicio,primeraEtiquetaXml,m,m1,m2,s,s1,s2,s3,s4,p,p1,p2,p3,p4; 
+non terminal Object     inicio,acciones,unaAccion,conjuntoDeAcciones,cabecera,cuerpo,etiquetas,atributos,
+                        conjuntoDeParametros,unParametro,conjuntoDeEtiquetas,unaEtiqueta,
+                        conjuntoDeAtributos, unAtributo,fin;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-//inicio::=MENOR_QUE ACCIONES MAYOR_QUE m1|
-//        MENOR_QUE ACCIONES MAYOR_QUE m;
-
-/*
-
-p3::= COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE DIAGONAL ACCION p
-                {:System.out.println("------------------------>NUEVA PAGINA");if(paginaWeb!=null){paginaWeb.escribirDatos();try{paginaWeb.verificarDatosObligatoriosParaCreacion();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTARON ATRIBUTOS OBLIGATORIOS*****");}}sitioWeb=null;:}|
-
-            COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE DIAGONAL ACCION 
-
-                {:System.out.println("------------------------>NUEVA PAGINA");if(paginaWeb!=null){paginaWeb.escribirDatos();try{paginaWeb.verificarDatosObligatoriosParaCreacion();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTARON ATRIBUTOS OBLIGATORIOS*****");}}sitioWeb=null;:};
-
-
-m::=MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE;
-p::=DIAGONAL;
-m1::=MAYOR_QUE;
-
-
-
-*/
-
-
-
-//--------------------------------------------->INICIO CON ACCIOIN O ACCIONES<--------------------------------------------
 
 start with inicio;
 
-inicio::=MENOR_QUE ACCIONES MAYOR_QUE m MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE|
-         MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|
-         error {:clienteFrame.setSeDebeEnviarElTexto(false);:};
+inicio::= unaAccion|acciones|error;
 
+acciones::= MENOR_QUE ACCIONES MAYOR_QUE conjuntoDeAcciones MENOR_QUE DIAGONAL ACCIONES MAYOR_QUE;
 
-//--------------------------------------------->ACCIONES PERMITIDAS<--------------------------------------------
+conjuntoDeAcciones::= conjuntoDeAcciones unaAccion | unaAccion;
 
-m::=m m2|m2;
+unaAccion::=cabecera cuerpo fin|
+            cabecera cuerpo etiquetas fin|
+            cabecera cuerpo atributos fin;
 
-m2::= MENOR_QUE ACCION NOMBRE IGUAL m1 MENOR_QUE DIAGONAL ACCION MAYOR_QUE|
-      error {:clienteFrame.setSeDebeEnviarElTexto(false);:};
+fin::= MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
 
-m1::= COMILLA NUEVO_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s:i  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE
-       {:if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");};}sitioWeb=null;System.out.println("----->NUEVO SITIO WEB VALOR::::::"+i);:}|    
-      
-       COMILLA BORRAR_SITIO_WEB COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE s3 MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE 
-       {:System.out.println("------------------------>BORRAR SITIO WEB");if(sitioWeb!=null){sitioWeb.escribirDatos();try{sitioWeb.verificarDatosObligatorios();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTO EL ATRIBUTO OBLIGATORIO ID*****");}}sitioWeb=null;:}|
-     
-      //COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE p MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE 
-      //{:System.out.println("------------------------>NUEVA PAGINA");if(paginaWeb!=null){paginaWeb.escribirDatos();try{paginaWeb.verificarDatosObligatoriosParaCreacion();}catch(FaltaDeAtributoObligatorioException e){System.out.println("******FALTARON ATRIBUTOS OBLIGATORIOS*****");}}sitioWeb=null;:}|
+cabecera ::= MENOR_QUE ACCION NOMBRE IGUAL NUEVA_PAGINA;
 
-      COMILLA NUEVA_PAGINA COMILLA MAYOR_QUE MENOR_QUE PARAMETROS MAYOR_QUE p MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE MENOR_QUE ETIQUETAS MAYOR_QUE  p3 MENOR_QUE DIAGONAL ETIQUETAS MAYOR_QUE 
-      {:System.out.println("------------------------>NUEVA PAGINA");:}|
+cuerpo ::= MENOR_QUE PARAMETROS MAYOR_QUE conjuntoDeParametros MENOR_QUE PARAMETROS MAYOR_QUE;
 
-      COMILLA BORRAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR PAGINA");:}|
-      COMILLA MODIFICAR_PAGINA COMILLA MAYOR_QUE {:System.out.println("------------------------>MODIFICAR PAGINA");:}|
-      COMILLA AGREGAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>AGREGAR COMPONENTE");:}|
-      COMILLA BORRAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>BORRAR COMPONENTE");:}|
-      COMILLA MODIFICAR_COMPONENTE COMILLA MAYOR_QUE {:System.out.println("------------------------>MODIFICAR COMPONENTE");:};
-      
+conjuntoDeParametros::= conjuntoDeParametros unParametro | unParametro;
 
+unParametro::= MENOR_QUE PARAMETRO NOMBRE IGUAL COMILLA ID COMILLA CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE;
 
-//--------------------------------------------->NUEVO_SITIO_WEB<--------------------------------------------
-s::= s s1:i 
-    {:iniciarSitioWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:}|
-    s1:i 
-    {:iniciarSitioWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:};
+etiquetas::= MENOR_QUE ETIQUETAS MAYOR_QUE conjuntoDeEtiquetas MENOR_QUE DIAGONAL ETIQUETAS MAYOR_QUE;
 
-s1::= MENOR_QUE PARAMETRO NOMBRE IGUAL s2:i1 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
-     {:System.out.println("----------->   Valores"+i1);RESULT =i1;:}|
-     error {:clienteFrame.setSeDebeEnviarElTexto(false);:};
+conjuntoDeEtiquetas::= conjuntoDeEtiquetas unaEtiqueta|unaEtiqueta;
 
-s2::= COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
-                {:RESULT =i;valor="id";:}|
-      COMILLA USUARIO_CREACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO 
-                {:RESULT =i;valor="usuarioCreacion";:}|
-      COMILLA USUARIO_MODIFICACION  COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
-                {:RESULT =i;valor="usuarioModificacion";:}|
-      COMILLA FECHA_CREACION COMILLA MAYOR_QUE CORCHETE_ABIERTO FORMATO_FECHA:i CORCHETE_CERRADO 
-                {:RESULT =i;valor="fechaCreacion";:}|
-      COMILLA FECHA_MODIFICACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO FORMATO_FECHA:i CORCHETE_CERRADO
-                 {:RESULT =i;valor="fechaModificacion";:};
+unaEtiqueta ::= MENOR_QUE ETIQUETA VALOR IGUAL COMILLA ID COMILLA DIAGONAL MAYOR_QUE;
 
-//--------------------------------------------->BORRAR_SITIO_WEB<--------------------------------------------
+atributos::= MENOR_QUE ATRIBUTOS MAYOR_QUE conjuntoDeAtributos MENOR_QUE DIAGONAL ATRIBUTOS MAYOR_QUE;
 
-s3::=  MENOR_QUE PARAMETRO NOMBRE IGUAL s4:i MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
-        {:iniciarSitioWeb(i,valor,ileft,iright);:}| 
-        error {:clienteFrame.setSeDebeEnviarElTexto(false);:};
+conjuntoDeAtributos::= conjuntoDeAtributos unAtributo | unAtributo;
 
-s4::=  COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
-        {:System.out.println("IDENTIFICADOR:"+i);RESULT=i;valor="id";:};
-
-//--------------------------------------------->NUEVA_PAGINA<--------------------------------------------
-
-p::= p p1:i 
-    {:iniciarPaginaWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:}
-    |p1:i
-    {:iniciarPaginaWeb(i,valor,ileft,iright);System.out.println("----------->   ValoresPS"+i);RESULT =i;:};
-
-p1::=  MENOR_QUE PARAMETRO NOMBRE IGUAL p2:i1 MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
-       {:System.out.println("----------->   Valores"+i1);RESULT =i1;:}|
-       error {:clienteFrame.setSeDebeEnviarElTexto(false);:};
-
-p2::=COMILLA ID COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
-                {:RESULT =i;valor="id";:}|
-      COMILLA TITULO COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO 
-                {:RESULT =i;valor="titulo";:}|
-      COMILLA SITIO  COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
-                {:RESULT =i;valor="sitio";:}|
-      COMILLA PADRE COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO 
-                {:RESULT =i;valor="padre";:}|
-      COMILLA USUARIO_CREACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
-                 {:RESULT =i;valor="usuarioCreacion";:}|
-      COMILLA FECHA_CREACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO FORMATO_FECHA:i CORCHETE_CERRADO
-                 {:RESULT =i;valor="fechaCreacion";:}|
-      COMILLA FECHA_MODIFICACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO FORMATO_FECHA:i CORCHETE_CERRADO
-                 {:RESULT =i;valor="fechaModificacion";:}|
-      COMILLA USUARIO_MODIFICACION COMILLA MAYOR_QUE  CORCHETE_ABIERTO IDENTIFICADOR:i CORCHETE_CERRADO
- 
-                {:RESULT =i;valor="usuarioModificacion";:};
-
-
-
-p3::= p3 p4|p4;
-
-//p4::=  MENOR_QUE DIAGONAL PARAMETROS MAYOR_QUE MENOR_QUE COMILLA ETIQUETA VALOR IGUAL COMILLA IDENTIFICADOR COMILLA DIAGONAL MAYOR_QUE;
-p4::= MENOR_QUE;
-
+unAtributo::= MENOR_QUE ATRIBUTO  NOMBRE IGUAL COMILLA TEXTO COMILLA MAYOR_QUE CORCHETE_ABIERTO IDENTIFICADOR CORCHETE_CERRADO MENOR_QUE DIAGONAL ATRIBUTO MAYOR_QUE;

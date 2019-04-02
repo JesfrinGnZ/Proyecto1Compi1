@@ -2,7 +2,7 @@
 
 package backend.analizadorParaTextoDeCliente;
 import java_cup.runtime.*;
-import static backendd.analizadorParaTextoDeCliente.sym.*;
+import static backend.analizadorParaTextoDeCliente.sym.*;
 import frontend.gui.*;
 
 %% //------------------>2da area<--------------------------    

@@ -1,0 +1,56 @@
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+
+package backend.analizadorParaLogin;
+import java_cup.runtime.*;
+import backend.elementos.Usuario;
+import java.util.ArrayList;
+import frontend.gui.*;
+
+parser code {:
+
+    ArrayList<Usuario> listaDeUsuarios;
+    Usuario usuario;
+
+    // Connect this parser to a scanner!
+    public parser(AnalizadorLexicoUsuarios lex,ArrayList<Usuario> listaDeUsuarios) {
+	super(lex);
+        this.listaDeUsuarios=listaDeUsuarios;
+
+    }
+
+    //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s){        
+        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+    }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{        
+        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+    }
+
+   
+
+:}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+terminal String         USUARIO,NOMBRE,PASSWORD,DIAGONAL,MENOR_QUE,MAYOR_QUE,ID;
+
+non terminal Object     usuarios,usuario, nombre,password;
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+start with usuarios;
+
+usuarios::= usuarios usuario | usuario;
+
+usuario::=MENOR_QUE USUARIO MAYOR_QUE nombre password MENOR_QUE DIAGONAL USUARIO MAYOR_QUE;
+
+nombre::=MENOR_QUE NOMBRE MAYOR_QUE ID:i MENOR_QUE DIAGONAL NOMBRE MAYOR_QUE 
+{:usuario=new Usuario();usuario.setNombre(i.toString());RESULT=i;:};
+
+password::=MENOR_QUE PASSWORD MAYOR_QUE ID:i MENOR_QUE DIAGONAL PASSWORD MAYOR_QUE 
+{:usuario.setPassword(i.toString());listaDeUsuarios.add(usuario);:}; 
+
+
+
