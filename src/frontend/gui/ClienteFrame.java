@@ -264,7 +264,7 @@ public class ClienteFrame extends javax.swing.JFrame {
         } else if (tipo.equalsIgnoreCase("sintactico")) {
             texto = "Error SINTACTICO linea:" + linea + " " + "Columna:" + columna + " " + "Lexema:" + lexema + "\n";
         } else {
-            texto = "Error SINTACTICO VALOR REPETIDO linea:" + linea + " " + "Columna:" + columna + " " + "Lexema:" + lexema + "\n";
+            texto = "Error SINTACTICO VALOR REPETIDO o INCORRECTO linea:" + linea + " " + "Columna:" + columna + " " + "Lexema:" + lexema + "\n";
         }
 
         this.erroresTextArea.append(texto);

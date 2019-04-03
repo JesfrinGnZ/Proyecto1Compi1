@@ -75,87 +75,89 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>     ">"    {return symbol(MAYOR_QUE,yytext());}
 
-<YYINITIAL>     "["    {return symbol(CORCHETE_ABIERTO,yytext());}
+//<YYINITIAL>     "["    {return symbol(CORCHETE_ABIERTO,yytext());}
 
-<YYINITIAL>     "]"    {return symbol(CORCHETE_CERRADO,yytext());}
+//<YYINITIAL>     "]"    {return symbol(CORCHETE_CERRADO,yytext());}
 
 <YYINITIAL>     "="    {return symbol(IGUAL,yytext());}
 
-<YYINITIAL>     "\""   {return symbol(COMILLA,yytext());}
+//<YYINITIAL>     "\""   {return symbol(COMILLA,yytext());}
 
 <YYINITIAL>     "|"    {return symbol(DIAGONAL_RECTA,yytext());}
 
-<YYINITIAL>     "NUEVO_SITIO_WEB"   {return symbol(NUEVO_SITIO_WEB,yytext());}
+<YYINITIAL>     ""\""NUEVO_SITIO_WEB"\"""   {return symbol(NUEVO_SITIO_WEB,yytext());}
 
-<YYINITIAL>     "ID"    {return symbol(ID,yytext());}
+<YYINITIAL>     ""\""ID"\"""    {return symbol(ID,yytext());}
 
-<YYINITIAL>     "USUARIO_CREACION"  {return symbol(USUARIO_CREACION,yytext());}
+<YYINITIAL>     ""\""USUARIO_CREACION"\"""  {return symbol(USUARIO_CREACION,yytext());}
 
-<YYINITIAL>     "FECHA_CREACION"    {return symbol(FECHA_CREACION,yytext());}
+<YYINITIAL>     ""\""FECHA_CREACION"\"""    {return symbol(FECHA_CREACION,yytext());}
 
-<YYINITIAL>     "FECHA_MODIFICACION"    {return symbol(FECHA_MODIFICACION,yytext());}
+<YYINITIAL>     ""\""FECHA_MODIFICACION"\"""    {return symbol(FECHA_MODIFICACION,yytext());}
 
-<YYINITIAL>     "USUARIO_MODIFICACION"  {return symbol(USUARIO_MODIFICACION,yytext());}
+<YYINITIAL>     ""\""USUARIO_MODIFICACION"\"""  {return symbol(USUARIO_MODIFICACION,yytext());}
 
-<YYINITIAL>     "BORRAR_SITIO_WEB"      {return symbol(BORRAR_SITIO_WEB,yytext());}
+<YYINITIAL>     ""\""BORRAR_SITIO_WEB"\"""      {return symbol(BORRAR_SITIO_WEB,yytext());}
 
-<YYINITIAL>     "NUEVA_PAGINA"      {return symbol(NUEVA_PAGINA,yytext());}
+<YYINITIAL>     ""\""NUEVA_PAGINA"\"""      {return symbol(NUEVA_PAGINA,yytext());}
 
-<YYINITIAL>     "TITULO"        {return symbol(TITULO,yytext());}
+<YYINITIAL>     ""\""TITULO"\"""        {return symbol(TITULO,yytext());}
 
-<YYINITIAL>     "SITIO"     {return symbol(SITIO,yytext());}
+<YYINITIAL>     ""\""SITIO"\"""     {return symbol(SITIO,yytext());}
 
-<YYINITIAL>     "PADRE"     {return symbol(PADRE,yytext());}
+<YYINITIAL>     ""\""PADRE"\"""     {return symbol(PADRE,yytext());}
 
-<YYINITIAL>     "BORRAR_PAGINA"     {return symbol(BORRAR_PAGINA,yytext());}
+<YYINITIAL>     ""\""ETIQUETAS"\"""     {return symbol(ETIQUETAS_TEXTO_MENU,yytext());}
 
-<YYINITIAL>     "MODIFICAR_PAGINA"  {return symbol(MODIFICAR_PAGINA,yytext());}
+<YYINITIAL>     ""\""BORRAR_PAGINA"\"""     {return symbol(BORRAR_PAGINA,yytext());}
 
-<YYINITIAL>     "AGREGAR_COMPONENTE"    {return symbol(AGREGAR_COMPONENTE,yytext());}
+<YYINITIAL>     ""\""MODIFICAR_PAGINA"\"""  {return symbol(MODIFICAR_PAGINA,yytext());}
 
-<YYINITIAL>     "PAGINA"    {return symbol(PAGINA,yytext());}
+<YYINITIAL>     ""\""AGREGAR_COMPONENTE"\"""    {return symbol(AGREGAR_COMPONENTE,yytext());}
 
-<YYINITIAL>     "CLASE"     {return symbol(CLASE,yytext());}
+<YYINITIAL>     ""\"PAGINA"\""    {return symbol(PAGINA,yytext());}
 
-<YYINITIAL>     "BORRAR_COMPONENTE"     {return symbol(BORRAR_COMPONENTE,yytext());}
+<YYINITIAL>     ""\"CLASE"\""     {return symbol(CLASE,yytext());}
 
-<YYINITIAL>     "MODIFICAR_COMPONENTE"  {return symbol(MODIFICAR_COMPONENTE,yytext());} 
+<YYINITIAL>     ""\"BORRAR_COMPONENTE"\""     {return symbol(BORRAR_COMPONENTE,yytext());}
 
-<YYINITIAL>     "TITULO"       {return symbol(TITULO,yytext());}       
+<YYINITIAL>     ""\"MODIFICAR_COMPONENTE"\""  {return symbol(MODIFICAR_COMPONENTE,yytext());} 
 
-<YYINITIAL>     "PARRAFO"       {return symbol(PARRAFO,yytext());}       
+<YYINITIAL>     "[TITULO]"       {return symbol(TITULO,yytext());}       
 
-<YYINITIAL>     "IMAGEN"       {return symbol(IMAGEN,yytext());}       
+<YYINITIAL>     "[PARRAFO]"       {return symbol(PARRAFO,yytext());}       
 
-<YYINITIAL>     "VIDEO"       {return symbol(VIDEO,yytext());}       
+<YYINITIAL>     "[IMAGEN]"       {return symbol(IMAGEN,yytext());}       
 
-<YYINITIAL>     "MENU"       {return symbol(MENU,yytext());}
+<YYINITIAL>     "[VIDEO]"       {return symbol(VIDEO,yytext());}       
 
-<YYINITIAL>     "TEXTO"       {return symbol(TEXTO,yytext());}
+<YYINITIAL>     "[MENU]"       {return symbol(MENU,yytext());}
+
+<YYINITIAL>     ""\"TEXTO"\""       {return symbol(TEXTO,yytext());}
        
-<YYINITIAL>     "ALINEACION"       {return symbol(ALINEACION,yytext());}
+<YYINITIAL>     ""\"ALINEACION"\""       {return symbol(ALINEACION,yytext());}
 
-<YYINITIAL>     "CENTRAR"       {return symbol(CENTRAR,yytext());}
+<YYINITIAL>     "[CENTRAR]"       {return symbol(CENTRAR,yytext());}
 
-<YYINITIAL>     "IZQUIERDA"       {return symbol(IZQUIERDA,yytext());}
+<YYINITIAL>     "[IZQUIERDA]"       {return symbol(IZQUIERDA,yytext());}
 
-<YYINITIAL>     "DERECHA"       {return symbol(DERECHA,yytext());}
+<YYINITIAL>     "[DERECHA]"       {return symbol(DERECHA,yytext());}
 
-<YYINITIAL>     "JUSTIFICAR"       {return symbol(JUSTIFICAR,yytext());}
+<YYINITIAL>     "[JUSTIFICAR]"       {return symbol(JUSTIFICAR,yytext());}
 
-<YYINITIAL>     "COLOR"       {return symbol(COLOR,yytext());}
+<YYINITIAL>     ""\"COLOR"\""       {return symbol(COLOR,yytext());}
 
-<YYINITIAL>     "ORIGEN"       {return symbol(ORIGEN,yytext());}
+<YYINITIAL>     ""\"ORIGEN"\""       {return symbol(ORIGEN,yytext());}
 
-<YYINITIAL>     "ALTURA"       {return symbol(ALTURA,yytext());}
+<YYINITIAL>     ""\"ALTURA"\""       {return symbol(ALTURA,yytext());}
 
-<YYINITIAL>     "ANCHO"       {return symbol(ANCHO,yytext());}
+<YYINITIAL>     ""\"ANCHO"\""       {return symbol(ANCHO,yytext());}
 
-<YYINITIAL>     {FormatoFecha}  {return symbol(FORMATO_FECHA,yytext());}
+<YYINITIAL>     "["{FormatoFecha}"]"  {return symbol(FORMATO_FECHA,yytext());}
 
-<YYINITIAL>     {Digitos}     {return symbol(NUMERO,yytext());}
+<YYINITIAL>     "["{Digitos}"]"     {return symbol(NUMERO,yytext());}
 
-<YYINITIAL>     {Id} {return symbol(IDENTIFICADOR,yytext());}   
+<YYINITIAL>     "["{Id}"]" {return symbol(IDENTIFICADOR,yytext());}   
 
 <YYINITIAL> "#"([a-fA-F]|[0-9]){6}      {System.out.println("Codigo color:"+yytext());return symbol(CODIGO_COLOR,yytext());}  
 
@@ -167,7 +169,7 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>  ~"|"     {System.out.println("ETIQUETA_MENU:"+yytext());return symbol(ETIQUETA_MENU,yytext());}
 
-<YYINITIAL>  ~"]"     {System.out.println("ETIQUETA_MENU_FIN:"+yytext());return symbol(ETIQUETA_MENU_FIN,yytext());}  
+//<YYINITIAL>  ~"]"     {System.out.println("ETIQUETA_MENU_FIN:"+yytext());return symbol(ETIQUETA_MENU_FIN,yytext());}  
   
 
 {Espacio} 	{/*IGNORAMOS*/}

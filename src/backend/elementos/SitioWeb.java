@@ -6,79 +6,133 @@
 package backend.elementos;
 
 import backend.excepciones.FaltaDeAtributoObligatorioException;
+import frontend.gui.ClienteFrame;
+import java.util.ArrayList;
 
 /**
  *
  * @author jesfrin
  */
 public class SitioWeb {
-    
-    private String id,usuarioCreacion,fechaCreacion,fechaModificacion,usuarioModificacion;
-    
-    public SitioWeb(){   
+
+    private String id, usuarioCreacion, fechaCreacion, fechaModificacion, usuarioModificacion;
+
+    public SitioWeb() {
     }
-    /**\
-     * 
+
+    /**
+     * \
+     *
      * @param valor
      * @param tipo
      * @return true si se pudo asignar el valor, es decir no es repetitivo
      */
-    public boolean darValores(String valor, String tipo){
-        switch(tipo){
+    public boolean darValoresCreacion(String valor, String tipo) {
+        switch (tipo) {
             case "id":
-                if(this.id==null){
-                    this.id=valor;
+                if (this.id == null) {
+                    this.id = valor;
                     return true;
                 }
                 break;
             case "usuarioCreacion":
-                if(this.usuarioCreacion==null){
-                    this.usuarioCreacion=valor;
+                if (this.usuarioCreacion == null) {
+                    this.usuarioCreacion = valor;
                     return true;
                 }
                 break;
             case "fechaCreacion":
-                if(this.fechaCreacion==null){
-                    this.fechaCreacion=valor;
+                if (this.fechaCreacion == null) {
+                    this.fechaCreacion = valor;
                     return true;
                 }
                 break;
             case "fechaModificacion":
-                if(this.fechaModificacion==null){
-                    this.fechaModificacion=valor;
+                if (this.fechaModificacion == null) {
+                    this.fechaModificacion = valor;
                     return true;
                 }
                 break;
             case "usuarioModificacion":
-                if(this.usuarioModificacion==null){
-                    this.usuarioModificacion=valor;
+                if (this.usuarioModificacion == null) {
+                    this.usuarioModificacion = valor;
                     return true;
                 }
                 break;
         }
         return false;
     }
-    
+
+    /**
+     *
+     * @param valor
+     * @param tipo
+     * @return true si se pudo asignar el valor, es decir no es repetitivo
+     */
+    public boolean darValoresEliminacion(String valor, String tipo) {
+        switch (tipo) {
+            case "id":
+                if (this.id == null) {
+                    this.id = valor;
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
     /**
      * Verifica si el objeto cuenta con los datos obligatorios
+     *
      * @throws backend.excepciones.FaltaDeAtributoObligatorioException
      */
-    public void verificarDatosObligatorios() throws FaltaDeAtributoObligatorioException{
-        if(this.id==null){
+    public void verificarDatosObligatorios() throws FaltaDeAtributoObligatorioException {
+        if (this.id == null) {
             throw new FaltaDeAtributoObligatorioException();
+        }
+    }
+
+    /**
+     *
+     * @param tipo
+     * @param listaDeTokens
+     * @param clienteFrame
+     * @param b Verifica parametros, repeticiones y obligatorios
+     */
+    static void analisisDeCreacionSitioWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame, boolean b) {
+        SitioWeb nuevoSitio = new SitioWeb();
+        for (Token token : listaDeTokens) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
+            if (!(nuevoSitio.darValoresCreacion(token.getLexema(), token.getTipo()))) {
+                clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getLexema());
+            }
+        }
+        try {
+            nuevoSitio.verificarDatosObligatorios();//Se verifica si estan los datos obligatorios
+        } catch (FaltaDeAtributoObligatorioException ex) {
+            clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
         }
     }
     
     /**
-     * Verifica los datos que se han ingresado
+     * 
+     * @param tipo
+     * @param listaDeTokens
+     * @param clienteFrame
+     * @param b 
+     * Verifica parametros, repeticiones y obligatorios
      */
-    public void escribirDatos(){
-        System.out.println("Id:"+this.id);
-        System.out.println("UsuariCreacion:"+this.usuarioCreacion);
-        System.out.println("FechaCreacion:"+this.fechaCreacion);
-        System.out.println("FechaModificacion"+this.fechaModificacion);
-        System.out.println("UsuarioModificacion:"+this.usuarioModificacion);
+    static void analisisDeEliminacionSitioWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame, boolean b) {
+        SitioWeb nuevoSitio = new SitioWeb();
+        for (Token token : listaDeTokens) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
+            if (!(nuevoSitio.darValoresEliminacion(token.getLexema(), token.getTipo()))) {
+                clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getLexema());
+            }
+        }
+        try {
+            nuevoSitio.verificarDatosObligatorios();//Se verifica si estan los datos obligatorios
+        } catch (FaltaDeAtributoObligatorioException ex) {
+            clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
+        }
     }
-    
-    
+
 }
