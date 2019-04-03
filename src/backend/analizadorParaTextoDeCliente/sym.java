@@ -34,7 +34,7 @@ public class sym {
   public static final int CORCHETE_ABIERTO = 15;
   public static final int EOF = 0;
   public static final int BORRAR_COMPONENTE = 35;
-  public static final int ETIQUETAS_TEXTO_MENU = 59;
+  public static final int ETIQUETAS_TEXTO_MENU = 58;
   public static final int CLASE = 34;
   public static final int error = 1;
   public static final int FECHA_MODIFICACION = 23;
@@ -66,7 +66,6 @@ public class sym {
   public static final int ETIQUETA = 10;
   public static final int ALTURA = 49;
   public static final int JUSTIFICAR = 46;
-  public static final int ETIQUETA_MENU = 58;
   public static final int MODIFICAR_PAGINA = 31;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -127,7 +126,6 @@ public class sym {
   "ORACION_ETIQUETA",
   "ORACION",
   "URL",
-  "ETIQUETA_MENU",
   "ETIQUETAS_TEXTO_MENU"
   };
 }

@@ -170,7 +170,7 @@ public class PaginaWeb {
         }
     }
 
-    public static void analisisDeEliminacionDePaginaWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame, boolean seDebenTomarEtiquetas) {
+    public static void analisisDeEliminacionDePaginaWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame) {
         PaginaWeb nuevaPagina = new PaginaWeb();
         for (Token token : listaDeTokens) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
             if (!(nuevaPagina.darValoresEliminacion(token.getLexema(), token.getTipo()))) {

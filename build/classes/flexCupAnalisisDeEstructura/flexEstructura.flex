@@ -167,7 +167,7 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL> ^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)( [a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$    {System.out.println("URL"+yytext());return symbol(URL,yytext());}
 
-<YYINITIAL>  ~"|"     {System.out.println("ETIQUETA_MENU:"+yytext());return symbol(ETIQUETA_MENU,yytext());}
+//<YYINITIAL>  ~"|"     {System.out.println("ETIQUETA_MENU:"+yytext());return symbol(ETIQUETA_MENU,yytext());}
 
 //<YYINITIAL>  ~"]"     {System.out.println("ETIQUETA_MENU_FIN:"+yytext());return symbol(ETIQUETA_MENU_FIN,yytext());}  
   

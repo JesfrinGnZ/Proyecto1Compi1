@@ -20,12 +20,16 @@ parser code {:
     private Usuario usuario;
     private ClienteFrame clienteFrame;
     ArrayList<Token> listaDeTokens;
+    ArrayList<Token> listaDeEtiquetas;
+    ArrayList<Token> listaDeAtributos;
     // Connect this parser to a scanner!
     public parser(AnalizadorLexicoTextoCliente lex,Usuario usuario,ClienteFrame clienteFrame) {
 	super(lex);
         this.usuario=usuario;
         this.clienteFrame=clienteFrame;
-        listaDeTokens=new ArrayList<Token>();
+        listaDeTokens=new ArrayList<>();
+        listaDeEtiquetas= new ArrayList<>();
+        listaDeAtributos = new ArrayList<>();
     }
 
     //Metodo al que se llama automaticamente ante algun error sintactico
@@ -78,13 +82,12 @@ terminal String         ACCION,ACCIONES,PARAMETROS,PARAMETRO,ATRIBUTOS,ATRIBUTO,
                         AGREGAR_COMPONENTE,PAGINA,CLASE,BORRAR_COMPONENTE,MODIFICAR_COMPONENTE,
                         PARRAFO,IMAGEN,VIDEO,MENU,TEXTO,ALINEACION,CENTRAR,IZQUIERDA,DERECHA,JUSTIFICAR,
                         COLOR,ORIGEN,ALTURA,ANCHO,
-                        NUMERO,FORMATO_FECHA,IDENTIFICADOR,CODIGO_COLOR,ORACION_ETIQUETA,ORACION,URL,ETIQUETA_MENU,
+                        NUMERO,FORMATO_FECHA,IDENTIFICADOR,CODIGO_COLOR,ORACION_ETIQUETA,ORACION,URL,
                         ETIQUETAS_TEXTO_MENU;
 
 non terminal Object     inicio,acciones,unaAccion,conjuntoDeAcciones,cabecera,cuerpo,etiquetas,atributos,
                         conjuntoDeParametros,unParametro,conjuntoDeEtiquetas,unaEtiqueta,
-                        conjuntoDeAtributos, unAtributo,fin,tipoDeClase,tipoDeAlineacion,
-                        etiquetasParaMenu,unaEtiquetaParaMenu;
+                        conjuntoDeAtributos, unAtributo,fin,tipoDeClase,tipoDeAlineacion;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
 
@@ -100,10 +103,20 @@ unaAccion::=cabecera:i cuerpo fin
             {:System.out.println("CABECERA ES DE TIPO:"+i);
             Token accion= new Token(i.toString(),i.toString(),ileft,iright);
             ManejadorDeExpresiones.manejarExpresionSinEtiquetasNiAtributos(accion,listaDeTokens,clienteFrame);
-            listaDeTokens=new ArrayList();
+            listaDeTokens=new ArrayList<>();
             :}|
-            cabecera cuerpo etiquetas fin|
-            cabecera cuerpo atributos fin|
+
+            cabecera:i cuerpo etiquetas fin
+            {:Token accion= new Token(i.toString(),i.toString(),ileft,iright);
+            ManejadorDeExpresiones.manejarExpresionConEtiquetas(accion,listaDeTokens,clienteFrame,listaDeEtiquetas);
+            listaDeTokens=new ArrayList<>();
+            listaDeEtiquetas=new ArrayList<>();:}|
+            
+            cabecera:i cuerpo atributos fin
+            {:Token accion= new Token(i.toString(),i.toString(),ileft,iright);
+            ManejadorDeExpresiones.manejarExpresionConAtributos(accion,listaDeTokens,clienteFrame,listaDeAtributos);
+            listaDeTokens=new ArrayList<>();
+            listaDeAtributos=new ArrayList<>();:}|
             error;
 
 fin::= MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
@@ -167,11 +180,12 @@ tipoDeClase::=TITULO:e {:RESULT=e;:}|
               VIDEO:e {:RESULT=e;:}|
               MENU:e {:RESULT=e;:};
 
-etiquetas::= MENOR_QUE ETIQUETAS:i MAYOR_QUE conjuntoDeEtiquetas MENOR_QUE DIAGONAL ETIQUETAS MAYOR_QUE{::};
+etiquetas::= MENOR_QUE ETIQUETAS MAYOR_QUE conjuntoDeEtiquetas MENOR_QUE DIAGONAL ETIQUETAS MAYOR_QUE{::};
 
 conjuntoDeEtiquetas::= conjuntoDeEtiquetas unaEtiqueta|unaEtiqueta;
 
-unaEtiqueta ::= MENOR_QUE ETIQUETA VALOR IGUAL ORACION_ETIQUETA DIAGONAL MAYOR_QUE;
+unaEtiqueta ::= MENOR_QUE ETIQUETA VALOR IGUAL ORACION_ETIQUETA:t DIAGONAL MAYOR_QUE
+                {:listaDeEtiquetas.add(new Token("etiqueta",ManejadorDeExpresiones.recomponerTexto(t.toString()),tleft,tright));:};
 
 atributos::= MENOR_QUE ATRIBUTOS MAYOR_QUE conjuntoDeAtributos MENOR_QUE DIAGONAL ATRIBUTOS MAYOR_QUE;
 
@@ -184,7 +198,7 @@ unAtributo::= MENOR_QUE ATRIBUTO  NOMBRE IGUAL  TEXTO  MAYOR_QUE ORACION MENOR_Q
               MENOR_QUE ATRIBUTO  NOMBRE IGUAL  ALTURA  MAYOR_QUE NUMERO MENOR_QUE DIAGONAL ATRIBUTO MAYOR_QUE|
               MENOR_QUE ATRIBUTO  NOMBRE IGUAL  ANCHO  MAYOR_QUE NUMERO MENOR_QUE DIAGONAL ATRIBUTO MAYOR_QUE|
               MENOR_QUE ATRIBUTO  NOMBRE IGUAL  PADRE  MAYOR_QUE IDENTIFICADOR MENOR_QUE DIAGONAL ATRIBUTO MAYOR_QUE|
-              MENOR_QUE ATRIBUTO  NOMBRE IGUAL  ETIQUETAS_TEXTO_MENU  MAYOR_QUE etiquetasParaMenu MENOR_QUE DIAGONAL ATRIBUTO MAYOR_QUE|
+              MENOR_QUE ATRIBUTO  NOMBRE IGUAL  ETIQUETAS_TEXTO_MENU  MAYOR_QUE ORACION MENOR_QUE DIAGONAL ATRIBUTO MAYOR_QUE|
               error;
 
 
@@ -192,7 +206,4 @@ tipoDeAlineacion::=CENTRAR|
                    IZQUIERDA|
                    DERECHA|
                    JUSTIFICAR;
-
-etiquetasParaMenu::= etiquetasParaMenu unaEtiquetaParaMenu|unaEtiquetaParaMenu;
-
-unaEtiquetaParaMenu::= ETIQUETA_MENU;              
+            

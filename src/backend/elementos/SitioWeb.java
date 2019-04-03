@@ -99,7 +99,7 @@ public class SitioWeb {
      * @param clienteFrame
      * @param b Verifica parametros, repeticiones y obligatorios
      */
-    static void analisisDeCreacionSitioWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame, boolean b) {
+    static void analisisDeCreacionSitioWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame) {
         SitioWeb nuevoSitio = new SitioWeb();
         for (Token token : listaDeTokens) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
             if (!(nuevoSitio.darValoresCreacion(token.getLexema(), token.getTipo()))) {
@@ -121,7 +121,7 @@ public class SitioWeb {
      * @param b 
      * Verifica parametros, repeticiones y obligatorios
      */
-    static void analisisDeEliminacionSitioWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame, boolean b) {
+    static void analisisDeEliminacionSitioWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame) {
         SitioWeb nuevoSitio = new SitioWeb();
         for (Token token : listaDeTokens) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
             if (!(nuevoSitio.darValoresEliminacion(token.getLexema(), token.getTipo()))) {

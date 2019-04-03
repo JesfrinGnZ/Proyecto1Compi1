@@ -18,16 +18,16 @@ public class ManejadorDeExpresiones {
     public static void manejarExpresionSinEtiquetasNiAtributos(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame) {
         switch (tipo.getTipo()) {//Segun accion encontrada
             case "\"NUEVO_SITIO_WEB\"":
-                SitioWeb.analisisDeCreacionSitioWeb(tipo, listaDeTokens, clienteFrame, false);
+                SitioWeb.analisisDeCreacionSitioWeb(tipo, listaDeTokens, clienteFrame );
                 break;
             case "\"BORRAR_SITIO_WEB\"":
-                SitioWeb.analisisDeEliminacionSitioWeb(tipo, listaDeTokens, clienteFrame, true);
+                SitioWeb.analisisDeEliminacionSitioWeb(tipo, listaDeTokens, clienteFrame);
                 break;
             case "\"NUEVA_PAGINA\"":
                 PaginaWeb.analisisDeCreacionDePaginaWeb(tipo, listaDeTokens, clienteFrame, false);
                 break;
             case "\"BORRAR_PAGINA\"":
-                PaginaWeb.analisisDeEliminacionDePaginaWeb(tipo, listaDeTokens, clienteFrame, false);
+                PaginaWeb.analisisDeEliminacionDePaginaWeb(tipo, listaDeTokens, clienteFrame);
                 break;
             case "\"MODIFICAR_PAGINA\"":
                 PaginaWeb.analisisDeModificacionDePagina(tipo, listaDeTokens, clienteFrame, false);
@@ -36,7 +36,7 @@ public class ManejadorDeExpresiones {
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO falta de atributos para accion en Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "\"BORRAR_COMPONENTE\"":
-                clienteFrame.mostrarErrorSintactico("Error SINTACTICO falta de atributos para accion en Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
+                Componente.analisisDeEliminacionDeComponente(tipo, listaDeTokens, clienteFrame);
                 break;
             case "\"MODIFICAR_COMPONENTE\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO falta de atributos para accion en Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
@@ -44,7 +44,7 @@ public class ManejadorDeExpresiones {
         }
     }
 
-    public static void manejarExpresionConEtiquetas(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame) {
+    public static void manejarExpresionConEtiquetas(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame,ArrayList<Token> listaDeEtiquetas) {
         switch (tipo.getTipo()) {//Segun accion encontrada
             case "\"NUEVO_SITIO_WEB\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener etiquetas Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
@@ -53,11 +53,13 @@ public class ManejadorDeExpresiones {
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener etiquetas Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "\"NUEVA_PAGINA\"":
+                PaginaWeb.analisisDeCreacionDePaginaWeb(tipo, listaDeTokens, clienteFrame, true);
                 break;
             case "\"BORRAR_PAGINA\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener etiquetas Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "\"MODIFICAR_PAGINA\"":
+                PaginaWeb.analisisDeModificacionDePagina(tipo, listaDeTokens, clienteFrame, true);
                 break;
             case "\"AGREGAR_COMPONENTE\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener etiquetas Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
@@ -71,7 +73,7 @@ public class ManejadorDeExpresiones {
         }
     }
 
-    public static void manejarExpresionConAtributos(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame) {
+    public static void manejarExpresionConAtributos(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame,ArrayList<Token> listaDeAtributos) {
         switch (tipo.getTipo()) {//Segun accion encontrada
             case "\"NUEVO_SITIO_WEB\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener atributos Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
@@ -81,7 +83,6 @@ public class ManejadorDeExpresiones {
                 break;
             case "\"NUEVA_PAGINA\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener atributos Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
-
                 break;
             case "\"BORRAR_PAGINA\"":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener etiquetas Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
@@ -90,10 +91,13 @@ public class ManejadorDeExpresiones {
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener atributos Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "\"AGREGAR_COMPONENTE\"":
+                Componente.analisisDeCreacion_ModificacionDeComponente(tipo, listaDeTokens, clienteFrame, listaDeAtributos);
                 break;
             case "\"BORRAR_COMPONENTE\"":
+                clienteFrame.mostrarErrorSintactico("Error SINTACTICO falta de atributos para accion en Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "\"MODIFICAR_COMPONENTE\"":
+                Componente.analisisDeCreacion_ModificacionDeComponente(tipo, listaDeTokens, clienteFrame, listaDeAtributos);
                 break;
         }
     }
