@@ -8,6 +8,7 @@ package frontend.gui;
 import backend.analizadorParaLogin.AnalizadorLexicoUsuarios;
 import backend.analizadorParaLogin.parser;
 import backend.elementos.Usuario;
+import backend.manejadoresDeArchivosDeTexto.EscritorDeDatos;
 import backend.manejadoresDeArchivosDeTexto.LectorDeDatos;
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -31,7 +32,7 @@ public class LogInFrame extends javax.swing.JFrame {
     public LogInFrame() {
         initComponents();
         this.listaDeUsuarios = new ArrayList<>();
-        usuario= new Usuario();
+        usuario = new Usuario();
     }
 
     /**
@@ -49,8 +50,8 @@ public class LogInFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         iniciarCesionButton = new javax.swing.JButton();
         idTextField = new javax.swing.JTextField();
-        passwordTextField = new javax.swing.JTextField();
         registrarseButton = new javax.swing.JButton();
+        passwordPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +68,12 @@ public class LogInFrame extends javax.swing.JFrame {
             }
         });
 
+        idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idTextFieldKeyTyped(evt);
+            }
+        });
+
         registrarseButton.setText("Registrarse");
         registrarseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,30 +85,28 @@ public class LogInFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(219, 219, 219))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(89, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(219, 219, 219))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(iniciarCesionButton, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                             .addComponent(registrarseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(107, 107, 107))))
+                        .addGap(107, 107, 107))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(idTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                            .addComponent(passwordPasswordField1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +120,7 @@ public class LogInFrame extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addComponent(iniciarCesionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -141,22 +146,64 @@ public class LogInFrame extends javax.swing.JFrame {
 
     private void iniciarCesionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarCesionButtonActionPerformed
         String id = this.idTextField.getText();
-        String password = this.passwordTextField.getText();
+        String password = this.passwordPasswordField1.getText();
         if (id.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Faltan campos por llenar");
         } else {
-            analizarTexto();
-            if(buscarUsuario(id, password)){
-                JOptionPane.showMessageDialog(this, "Usuario encontrado"+this.usuario.getNombre());
-            }else{
+            if (verificarSiSePuedeIniciarLaAplicacionGeneral(id, password)) {
+                JOptionPane.showMessageDialog(this, "Usuario encontrado" + this.usuario.getNombre());
+                this.dispose();
+                ClienteFrame nuevoFrame = new ClienteFrame(usuario);
+                nuevoFrame.setVisible(true);
+                //Llamar app general
+            } else {
                 JOptionPane.showMessageDialog(this, "No se encontro el usuario");
             }
+
         }
     }//GEN-LAST:event_iniciarCesionButtonActionPerformed
 
     private void registrarseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarseButtonActionPerformed
-        // TODO add your handling code here:
+        String id = this.idTextField.getText();
+        String password = this.passwordPasswordField1.getText();
+        if (id.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Faltan compos por llenar");
+        } else {
+            if (id.startsWith("-") || id.startsWith("_") || id.startsWith("$")) {
+                analizarTextoUsuarios();
+                if (buscarSiExisteUsuarioConId(id)) {
+                    JOptionPane.showMessageDialog(this, "Ya existe el usuario conel ID especificado pueba con otro :)");
+                    this.idTextField.setText("");
+                    this.passwordPasswordField1.setText("");
+                } else {
+                    //Escribir el usuario
+                    password = "[" + password + "]";
+                    String nuevoUsuario
+                            = "<Usuario>\n"
+                            + "<Nombre>" + id + "</Nombre>\n"
+                            + "<Password>" + password + "</Password>\n"
+                            + "</Usuario>\n";
+                    EscritorDeDatos.escribirDatos(nuevoUsuario);
+                    JOptionPane.showMessageDialog(this, "Usuario creado y registrado");
+                    this.usuario = new Usuario(id, password);
+                    this.dispose();
+                    ClienteFrame nuevoFrame = new ClienteFrame(usuario);
+                    nuevoFrame.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "El id debe comenzar con alguno de los siguientes simbolos: - _ $");
+                this.idTextField.setText("");
+                this.passwordPasswordField1.setText("");
+            }
+
+        }
     }//GEN-LAST:event_registrarseButtonActionPerformed
+
+    private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
+        if (evt.getKeyChar() == ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_idTextFieldKeyTyped
 
     /**
      * @param args the command line arguments
@@ -201,7 +248,7 @@ public class LogInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField passwordTextField;
+    private javax.swing.JPasswordField passwordPasswordField1;
     private javax.swing.JButton registrarseButton;
     // End of variables declaration//GEN-END:variables
 
@@ -213,21 +260,19 @@ public class LogInFrame extends javax.swing.JFrame {
         this.listaDeUsuarios = listaDeUsuarios;
     }
 
-    private void analizarTexto() {
+    private void analizarTextoUsuarios() {//Llena la lista de usuarios segun analisis lexico y sintactico
         String instruccion = LectorDeDatos.leerDatos();
-        AnalizadorLexicoUsuarios lexico = new AnalizadorLexicoUsuarios(new BufferedReader(new StringReader(instruccion)));
-        parser sintactico = new parser(lexico, listaDeUsuarios);
-        try {
-            sintactico.parse();
-        } catch (Exception ex) {
-            // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("OCURRIO UN ERROR EN EL SINTACTICO");
-        }
-      
-        
+            AnalizadorLexicoUsuarios lexico = new AnalizadorLexicoUsuarios(new BufferedReader(new StringReader(instruccion)));
+            parser sintactico = new parser(lexico, listaDeUsuarios);
+            try {
+                sintactico.parse();
+            } catch (Exception ex) {
+                // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("OCURRIO UN ERROR EN EL SINTACTICO");
+            }
     }
 
-    private boolean buscarUsuario(String id, String password) {
+    private boolean buscarUsuarioEspecifico(String id, String password) {
         for (Usuario usr : listaDeUsuarios) {
             if (usr.getNombre().equals(id) && usr.getPassword().equals(password)) {
                 this.usuario = usr;
@@ -236,6 +281,27 @@ public class LogInFrame extends javax.swing.JFrame {
         }
 
         return false;
+    }
+
+    private boolean buscarSiExisteUsuarioConId(String id) {
+        for (Usuario usr : listaDeUsuarios) {
+            if (usr.getNombre().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean verificarSiSePuedeIniciarLaAplicacionGeneral(String id, String password) {
+        analizarTextoUsuarios();
+        //Se recompone la contrasena
+        password = "[" + password + "]";
+        //Se busca el usuario
+        if (buscarUsuarioEspecifico(id, password)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -50,7 +50,7 @@ public class parser extends java_cup.runtime.lr_parser {
     "\004\002\001\001\002\000\004\011\012\001\002\000\004" +
     "\010\013\001\002\000\004\005\032\001\002\000\004\010" +
     "\016\001\002\000\004\010\026\001\002\000\004\006\017" +
-    "\001\002\000\004\011\020\001\002\000\004\012\021\001" +
+    "\001\002\000\004\011\020\001\002\000\004\013\021\001" +
     "\002\000\004\010\022\001\002\000\004\007\023\001\002" +
     "\000\004\006\024\001\002\000\004\011\025\001\002\000" +
     "\004\010\ufffc\001\002\000\004\007\027\001\002\000\004" +
@@ -128,12 +128,12 @@ public class parser extends java_cup.runtime.lr_parser {
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s){        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
    
@@ -218,7 +218,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // password ::= MENOR_QUE PASSWORD MAYOR_QUE ID MENOR_QUE DIAGONAL PASSWORD MAYOR_QUE 
+          case 5: // password ::= MENOR_QUE PASSWORD MAYOR_QUE FORMATO_PASSWORD MENOR_QUE DIAGONAL PASSWORD MAYOR_QUE 
             {
               Object RESULT =null;
 		int ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;

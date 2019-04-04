@@ -18,8 +18,8 @@ import backend.elementos.Usuario;
 Salto = \r|\n|\r\n
 Espacio = {Salto} | [ \t\f]
 SignosEspeciales =["_"|"-"|"$"]
-CC=#([a-fA-F]|[0-9]);
 Id = ({SignosEspeciales}+[:jletterdigit:]+)+
+
 
 
 %{
@@ -50,19 +50,21 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
    ">"    {return symbol(MAYOR_QUE,yytext());}
 
-    {Id}   {System.out.println("IDDDD:"+yytext());return symbol(ID,yytext());}
+    {Id}   {return symbol(ID,yytext());}
 
-    "#"([a-fA-F]|[0-9]){6} {System.out.println("Codigo color:"+yytext());}
+   "["~"]" {return symbol(FORMATO_PASSWORD,yytext());}
 
-    "["~"]"     {System.out.println("Oracion:"+yytext());}
+//    "#"([a-fA-F]|[0-9]){6} {System.out.println("Codigo color:"+yytext());}
 
-    ^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$    {System.out.println("URL:"+yytext());}
+//    "["~"]"     {System.out.println("Oracion:"+yytext());}
+
+//    ^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$    {System.out.println("URL:"+yytext());}
 
 {Espacio} 	{/*IGNORAMOS*/}
 }
 
 //<<EOF>>                 { return symbol(EOF);
 
-[^]     {System.out.println("Error en el lexico"+yytext());}
+[^]     {/*Ignoramos*/}
 
 

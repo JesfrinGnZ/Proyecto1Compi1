@@ -34,6 +34,7 @@ public class ClienteFrame extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);//Configurando su posicion en el centro
         this.seDebeEnviarElTexto = true;
+        this.texto="";
     }
 
     /**
@@ -176,9 +177,12 @@ public class ClienteFrame extends javax.swing.JFrame {
         this.erroresTextArea.append("******************Analisis finalizado******************\n");
         if (seDebeEnviarElTexto) {
             this.erroresTextArea.append("El analisis fue EXITOSO!!!!!! se ha enviado las instrucciones");
+            System.out.println("///////////////////////"+"\n"+this.texto);
+            this.texto="";
         } else {
             this.erroresTextArea.append("El analisis concluyo con ERRORES!!!!!! verifique y pruebe de nuevo");
-            this.seDebeEnviarElTexto=true;
+            this.seDebeEnviarElTexto = true;
+            this.texto="";
         }
     }//GEN-LAST:event_enviarTextoButtonActionPerformed
 
@@ -216,30 +220,19 @@ public class ClienteFrame extends javax.swing.JFrame {
         this.seDebeEnviarElTexto = valor;
     }
 
-    public boolean getSeDebeEnviarElTexto() {
-        return this.seDebeEnviarElTexto;
+
+    public void concatenarTexto(String texto) {
+        this.texto += texto;
     }
 
-    public String getTexto() {
-        return texto;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void concatenarTextoAlInicio(String textoNuevo){
-        if(this.texto==null){
-            this.texto=textoNuevo;
-        }else{
-            String copiaDeTexto=this.texto;
-            this.texto=textoNuevo+copiaDeTexto;
-        }
+    public void concatenarTextoAlInicio(String textoNuevo) {
+        this.texto=textoNuevo+this.texto;
     }
-    
-    public void concatenarTextoAlFinal(String textoNuevo){
-        if(this.texto==null){
-            this.texto=textoNuevo;
-        }else{
-            this.texto+=textoNuevo;
-        }
-    }
+
 
     private void analizarTexto() {
         String instruccion = this.textoDeClienteTextArea.getText();
@@ -266,12 +259,15 @@ public class ClienteFrame extends javax.swing.JFrame {
         } else {
             texto = "Error SINTACTICO VALOR REPETIDO o INCORRECTO linea:" + linea + " " + "Columna:" + columna + " " + "Lexema:" + lexema + "\n";
         }
-
+        this.seDebeEnviarElTexto=false;
         this.erroresTextArea.append(texto);
+        this.texto="";
     }
 
     public void mostrarErrorSintactico(String mensaje) {
+        this.seDebeEnviarElTexto=false;
         this.erroresTextArea.append(mensaje + "\n");
+        this.texto="";
     }
 
 }

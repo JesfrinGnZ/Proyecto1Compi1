@@ -42,7 +42,7 @@ public class AtributoTituloParrafo {
     }
 
     public void verificarDatosObligatorios() throws FaltaDeAtributoObligatorioException {
-        if (this.texto == null || this.alineacion == null || this.color == null) {
+        if (this.texto == null ) {
             throw new FaltaDeAtributoObligatorioException();
         }
     }

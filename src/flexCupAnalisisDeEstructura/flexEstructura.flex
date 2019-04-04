@@ -81,47 +81,47 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>     "="    {return symbol(IGUAL,yytext());}
 
-//<YYINITIAL>     "\""   {return symbol(COMILLA,yytext());}
+<YYINITIAL>     "\""   {return symbol(COMILLA,yytext());}
 
-<YYINITIAL>     "|"    {return symbol(DIAGONAL_RECTA,yytext());}
+//<YYINITIAL>     "|"    {return symbol(DIAGONAL_RECTA,yytext());}
 
-<YYINITIAL>     ""\""NUEVO_SITIO_WEB"\"""   {return symbol(NUEVO_SITIO_WEB,yytext());}
+<YYINITIAL>     "NUEVO_SITIO_WEB"   {return symbol(NUEVO_SITIO_WEB,yytext());}
 
-<YYINITIAL>     ""\""ID"\"""    {return symbol(ID,yytext());}
+<YYINITIAL>     "ID"    {return symbol(ID,yytext());}
 
-<YYINITIAL>     ""\""USUARIO_CREACION"\"""  {return symbol(USUARIO_CREACION,yytext());}
+<YYINITIAL>     "USUARIO_CREACION"  {return symbol(USUARIO_CREACION,yytext());}
 
-<YYINITIAL>     ""\""FECHA_CREACION"\"""    {return symbol(FECHA_CREACION,yytext());}
+<YYINITIAL>     "FECHA_CREACION"    {return symbol(FECHA_CREACION,yytext());}
 
-<YYINITIAL>     ""\""FECHA_MODIFICACION"\"""    {return symbol(FECHA_MODIFICACION,yytext());}
+<YYINITIAL>     "FECHA_MODIFICACION"    {return symbol(FECHA_MODIFICACION,yytext());}
 
-<YYINITIAL>     ""\""USUARIO_MODIFICACION"\"""  {return symbol(USUARIO_MODIFICACION,yytext());}
+<YYINITIAL>     "USUARIO_MODIFICACION"  {return symbol(USUARIO_MODIFICACION,yytext());}
 
-<YYINITIAL>     ""\""BORRAR_SITIO_WEB"\"""      {return symbol(BORRAR_SITIO_WEB,yytext());}
+<YYINITIAL>     "BORRAR_SITIO_WEB"      {return symbol(BORRAR_SITIO_WEB,yytext());}
 
-<YYINITIAL>     ""\""NUEVA_PAGINA"\"""      {return symbol(NUEVA_PAGINA,yytext());}
+<YYINITIAL>     "NUEVA_PAGINA"      {return symbol(NUEVA_PAGINA,yytext());}
 
-<YYINITIAL>     ""\""TITULO"\"""        {return symbol(TITULO,yytext());}
+<YYINITIAL>     "TITULO"      {return symbol(TITULO,yytext());}
 
-<YYINITIAL>     ""\""SITIO"\"""     {return symbol(SITIO,yytext());}
+<YYINITIAL>     "SITIO"     {return symbol(SITIO,yytext());}
 
-<YYINITIAL>     ""\""PADRE"\"""     {return symbol(PADRE,yytext());}
+<YYINITIAL>     "PADRE"     {return symbol(PADRE,yytext());}
 
-<YYINITIAL>     ""\""ETIQUETAS"\"""     {return symbol(ETIQUETAS_TEXTO_MENU,yytext());}
+//<YYINITIAL>     "ETIQUETAS"    {return symbol(ETIQUETAS_TEXTO_MENU,yytext());}
 
-<YYINITIAL>     ""\""BORRAR_PAGINA"\"""     {return symbol(BORRAR_PAGINA,yytext());}
+<YYINITIAL>     "BORRAR_PAGINA"   {return symbol(BORRAR_PAGINA,yytext());}
 
-<YYINITIAL>     ""\""MODIFICAR_PAGINA"\"""  {return symbol(MODIFICAR_PAGINA,yytext());}
+<YYINITIAL>     "MODIFICAR_PAGINA"  {return symbol(MODIFICAR_PAGINA,yytext());}
 
-<YYINITIAL>     ""\""AGREGAR_COMPONENTE"\"""    {return symbol(AGREGAR_COMPONENTE,yytext());}
+<YYINITIAL>     "AGREGAR_COMPONENTE"    {return symbol(AGREGAR_COMPONENTE,yytext());}
 
-<YYINITIAL>     ""\"PAGINA"\""    {return symbol(PAGINA,yytext());}
+<YYINITIAL>     "PAGINA"   {return symbol(PAGINA,yytext());}
 
-<YYINITIAL>     ""\"CLASE"\""     {return symbol(CLASE,yytext());}
+<YYINITIAL>     "CLASE"     {return symbol(CLASE,yytext());}
 
-<YYINITIAL>     ""\"BORRAR_COMPONENTE"\""     {return symbol(BORRAR_COMPONENTE,yytext());}
+<YYINITIAL>     "BORRAR_COMPONENTE"    {return symbol(BORRAR_COMPONENTE,yytext());}
 
-<YYINITIAL>     ""\"MODIFICAR_COMPONENTE"\""  {return symbol(MODIFICAR_COMPONENTE,yytext());} 
+<YYINITIAL>     "MODIFICAR_COMPONENTE"  {return symbol(MODIFICAR_COMPONENTE,yytext());} 
 
 <YYINITIAL>     "[TITULO]"       {return symbol(TITULO,yytext());}       
 
@@ -133,9 +133,9 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>     "[MENU]"       {return symbol(MENU,yytext());}
 
-<YYINITIAL>     ""\"TEXTO"\""       {return symbol(TEXTO,yytext());}
+<YYINITIAL>     "TEXTO"     {return symbol(TEXTO,yytext());}
        
-<YYINITIAL>     ""\"ALINEACION"\""       {return symbol(ALINEACION,yytext());}
+<YYINITIAL>     "ALINEACION"       {return symbol(ALINEACION,yytext());}
 
 <YYINITIAL>     "[CENTRAR]"       {return symbol(CENTRAR,yytext());}
 
@@ -145,13 +145,13 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>     "[JUSTIFICAR]"       {return symbol(JUSTIFICAR,yytext());}
 
-<YYINITIAL>     ""\"COLOR"\""       {return symbol(COLOR,yytext());}
+<YYINITIAL>     "COLOR"       {return symbol(COLOR,yytext());}
 
-<YYINITIAL>     ""\"ORIGEN"\""       {return symbol(ORIGEN,yytext());}
+<YYINITIAL>     "ORIGEN"      {return symbol(ORIGEN,yytext());}
 
-<YYINITIAL>     ""\"ALTURA"\""       {return symbol(ALTURA,yytext());}
+<YYINITIAL>     "ALTURA"     {return symbol(ALTURA,yytext());}
 
-<YYINITIAL>     ""\"ANCHO"\""       {return symbol(ANCHO,yytext());}
+<YYINITIAL>     "ANCHO"       {return symbol(ANCHO,yytext());}
 
 <YYINITIAL>     "["{FormatoFecha}"]"  {return symbol(FORMATO_FECHA,yytext());}
 
@@ -159,13 +159,17 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>     "["{Id}"]" {return symbol(IDENTIFICADOR,yytext());}   
 
-<YYINITIAL> "#"([a-fA-F]|[0-9]){6}      {System.out.println("Codigo color:"+yytext());return symbol(CODIGO_COLOR,yytext());}  
+<YYINITIAL>     "\""{Id}"\"" {return symbol(IDENTIFICADOR_COMILLA,yytext());}
 
-<YYINITIAL> "\""~"\""     {System.out.println("Oracion:"+yytext());return symbol(ORACION_ETIQUETA,yytext());}  
+<YYINITIAL> "[#"([a-fA-F]|[0-9]){6}"]"      {System.out.println("Codigo color:"+yytext());return symbol(CODIGO_COLOR,yytext());}  
+
+//<YYINITIAL> "\""~"\""     {System.out.println("Oracion:"+yytext());return symbol(ORACION_ETIQUETA,yytext());}  
+
+//<YYINITIAL> "["({Id}"L")+ {Id}"]"     {System.out.println("ConjuntoDeEtiquetas:"+yytext());return symbol(CONJUNTO_DE_ETIQUETAS,yytext());}  
 
 <YYINITIAL> "["~"]"     {System.out.println("Oracion:"+yytext());return symbol(ORACION,yytext());}  
 
-<YYINITIAL> ^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)( [a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$    {System.out.println("URL"+yytext());return symbol(URL,yytext());}
+<YYINITIAL> ^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.* {System.out.println("URL"+yytext());return symbol(URL,yytext());}
 
 //<YYINITIAL>  ~"|"     {System.out.println("ETIQUETA_MENU:"+yytext());return symbol(ETIQUETA_MENU,yytext());}
 

@@ -10,6 +10,7 @@ public class sym {
   /* terminals */
   public static final int MAYOR_QUE = 7;
   public static final int USUARIO = 2;
+  public static final int FORMATO_PASSWORD = 9;
   public static final int EOF = 0;
   public static final int MENOR_QUE = 6;
   public static final int DIAGONAL = 5;
@@ -26,7 +27,8 @@ public class sym {
   "DIAGONAL",
   "MENOR_QUE",
   "MAYOR_QUE",
-  "ID"
+  "ID",
+  "FORMATO_PASSWORD"
   };
 }
 

@@ -41,7 +41,7 @@ public class Componente {
                     return true;
                 }
                 break;
-            case "sitio":
+            case "clase":
                 if (this.clase == null) {
                     this.clase = valor;
                     return true;
@@ -91,16 +91,20 @@ public class Componente {
         try {
             componente.verificarDatosObligatoriosParaCreacion_Modificacion();//Se verifica si estan los datos obligatorios
             switch(componente.getClase()){
-                case "titulo":
+                case "TITULO":
                     AtributoTituloParrafo.analisisDeTitulo(tipo, listaDeAtributos, clienteFrame);
                     break;
-                case "parrafo":
+                case "PARRAFO":
+                    AtributoTituloParrafo.analisisDeTitulo(tipo, listaDeAtributos, clienteFrame);
                     break;
-                case "imagen":
+                case "IMAGEN":
+                    AtributoImagen.analisisDeTitulo(tipo, listaDeAtributos, clienteFrame);
                     break;
-                case "video":
+                case "VIDEO":
+                    AtributoVideo.analisisDeTitulo(tipo, listaDeAtributos, clienteFrame);
                     break;
-                case "menu":
+                case "MENU":
+                    AtributoMenu.analisisDeTitulo(tipo, listaDeAtributos, clienteFrame);
                     break;
             }
         } catch (FaltaDeAtributoObligatorioException ex) {
