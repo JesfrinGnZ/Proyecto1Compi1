@@ -6,6 +6,7 @@
 package frontend.gui;
 
 import Run.Run;
+import backend.Conexion.Cliente;
 import backend.analizadorParaTextoDeCliente.AnalizadorLexicoTextoCliente;
 import backend.analizadorParaTextoDeCliente.parser;
 import backend.elementos.Usuario;
@@ -178,6 +179,9 @@ public class ClienteFrame extends javax.swing.JFrame {
         if (seDebeEnviarElTexto) {
             this.erroresTextArea.append("El analisis fue EXITOSO!!!!!! se ha enviado las instrucciones");
             System.out.println("///////////////////////"+"\n"+this.texto);
+            Cliente c =new Cliente(5000, this.texto);
+            Thread t = new Thread(c);
+            t.start();
             this.texto="";
         } else {
             this.erroresTextArea.append("El analisis concluyo con ERRORES!!!!!! verifique y pruebe de nuevo");

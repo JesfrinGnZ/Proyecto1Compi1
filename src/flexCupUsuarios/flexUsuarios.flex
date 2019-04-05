@@ -52,7 +52,11 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
     {Id}   {return symbol(ID,yytext());}
 
+ //   "["(({Id}"\|")+) {Id}"]" {System.out.println("Etiquetas conjuntas:"+yytext());}
+
    "["~"]" {return symbol(FORMATO_PASSWORD,yytext());}
+
+
 
 //    "#"([a-fA-F]|[0-9]){6} {System.out.println("Codigo color:"+yytext());}
 
@@ -65,6 +69,6 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 //<<EOF>>                 { return symbol(EOF);
 
-[^]     {/*Ignoramos*/}
+[^]     {/*Ignoramos*/System.out.println("Error:"+yytext());}
 
 

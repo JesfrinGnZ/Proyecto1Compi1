@@ -15,13 +15,26 @@ import java.util.ArrayList;
  */
 public class AtributoMenu {
 
-    private String id, etiqetas;
+    private String padre, etiqetas;
+
+    public AtributoMenu() {
+    }
+
+    
+    
+    public String generarTextoCreacion() {
+        String parametros = "<atributo nombre =\"PADRE\">[" + this.padre + "]</atributo>\n";
+        if (this.etiqetas != null) {
+            parametros += "<atributo nombre =\"ETIQUETAS\">[" + this.etiqetas + "]</atributo>\n";
+        }
+        return "<atributos>\n" + parametros + "</atributos>\n";
+    }
 
     public boolean darValores(String valor, String tipo) {
         switch (tipo) {
-            case "id":
-                if (this.id == null) {
-                    this.id = valor;
+            case "padre":
+                if (this.padre == null) {
+                    this.padre = valor;
                     return true;
                 }
                 break;
@@ -36,22 +49,25 @@ public class AtributoMenu {
     }
 
     public void verificarDatosObligatorios() throws FaltaDeAtributoObligatorioException {
-        if (this.id == null && this.etiqetas == null) {
+        if (this.padre == null) {
             throw new FaltaDeAtributoObligatorioException();
         }
     }
 
-        public static void analisisDeTitulo(Token tipo, ArrayList<Token> listaDeAtributos, ClienteFrame clienteFrame) {
+        public static String analisisDeTitulo(Token tipo, ArrayList<Token> listaDeAtributos, ClienteFrame clienteFrame) {
         AtributoMenu nuevoMenu = new AtributoMenu();
         for (Token token : listaDeAtributos) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
             if (!(nuevoMenu.darValores(token.getLexema(), token.getTipo()))) {
-                clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getLexema());
+                clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getTipo());
+                
             }
         }
         try {
             nuevoMenu.verificarDatosObligatorios();//Se verifica si estan los datos obligatorios
+            return nuevoMenu.generarTextoCreacion();
         } catch (FaltaDeAtributoObligatorioException ex) {
             clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
+            return null;
         }
     }
 }

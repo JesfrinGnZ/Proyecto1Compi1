@@ -93,13 +93,13 @@ public class ManejadorDeExpresiones {
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener atributos Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "AGREGAR_COMPONENTE":
-                Componente.analisisDeCreacion_ModificacionDeComponente(tipo, listaDeTokens, clienteFrame, listaDeAtributos);
+                Componente.analisisDeCreacion_ModificacionDeComponente(tipo, listaDeTokens, clienteFrame, listaDeAtributos,"creacion");
                 break;
             case "BORRAR_COMPONENTE":
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO falta de atributos para accion en Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             case "MODIFICAR_COMPONENTE":
-                Componente.analisisDeCreacion_ModificacionDeComponente(tipo, listaDeTokens, clienteFrame, listaDeAtributos);
+                Componente.analisisDeCreacion_ModificacionDeComponente(tipo, listaDeTokens, clienteFrame, listaDeAtributos,"modificacion");
                 break;
         }
     }

@@ -17,6 +17,17 @@ public class AtributoVideo {
 
     String origen, altura, ancho;
 
+    public AtributoVideo() {
+    }
+
+    
+    public String generarTextoCreacion() {
+        String parametros = "<atributo nombre =\"ORIGEN\">[" + this.origen + "]</atributo>\n";
+        parametros += "<atributo nombre =\"ALTURA\">[" + this.altura + "]</atributo>\n";
+        parametros += "<atributo nombre =\"ANCHO\">[" + this.ancho + "]</atributo>\n";
+        return "<atributos>\n" + parametros + "</atributos>\n";
+    }
+
     public boolean darValores(String valor, String tipo) {
         switch (tipo) {
             case "origen":
@@ -47,17 +58,19 @@ public class AtributoVideo {
         }
     }
 
-    public static void analisisDeTitulo(Token tipo, ArrayList<Token> listaDeAtributos, ClienteFrame clienteFrame) {
+    public static String analisisDeTitulo(Token tipo, ArrayList<Token> listaDeAtributos, ClienteFrame clienteFrame) {
         AtributoVideo nuevoVideo = new AtributoVideo();
         for (Token token : listaDeAtributos) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
             if (!(nuevoVideo.darValores(token.getLexema(), token.getTipo()))) {
-                clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getLexema());
+                clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getTipo());
             }
         }
         try {
             nuevoVideo.verificarDatosObligatorios();//Se verifica si estan los datos obligatorios
+            return nuevoVideo.generarTextoCreacion();
         } catch (FaltaDeAtributoObligatorioException ex) {
             clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
+            return null;
         }
     }
 }

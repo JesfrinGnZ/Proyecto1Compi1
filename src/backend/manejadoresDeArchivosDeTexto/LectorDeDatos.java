@@ -19,7 +19,7 @@ public class LectorDeDatos {
     
     public static String leerDatos(){
         String usuarios="";
-        File direccionDeUsuarios = new File("/home/jesfrin/Documentos/Usuarios.txt");
+        File direccionDeUsuarios = new File("/home/jesfrin/Documentos/ArchivosP1Compi1/Usuarios.txt");
         try {
             String aux;
             BufferedReader bf = new BufferedReader(new FileReader(direccionDeUsuarios));

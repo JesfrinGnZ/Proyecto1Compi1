@@ -51,6 +51,7 @@ public class sym {
   public static final int VALOR = 11;
   public static final int DERECHA = 43;
   public static final int IMAGEN = 36;
+  public static final int CONJUNTO_DE_ETIQUETAS = 56;
   public static final int ORIGEN = 46;
   public static final int PARRAFO = 35;
   public static final int MODIFICAR_COMPONENTE = 34;
@@ -120,7 +121,8 @@ public class sym {
   "CODIGO_COLOR",
   "ORACION",
   "URL",
-  "IDENTIFICADOR_COMILLA"
+  "IDENTIFICADOR_COMILLA",
+  "CONJUNTO_DE_ETIQUETAS"
   };
 }
 

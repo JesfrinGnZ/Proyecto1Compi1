@@ -20,9 +20,8 @@ Espacio = {Salto} | [ \t\f]
 //L = [a-zA-Z]
 Digitos = 0|[1-9][0-9]*
 //DigitosNaturales=[1-9][0-9]*
-FormatoFecha=[1-9][0-9][0-9][0-9]["-"][0-1][1-9]["-"][0-1][1-9]
-SignosEspeciales =["_"|"-"|"$"]
-Id = ({SignosEspeciales}+[:jletterdigit:]+)+
+FormatoFecha=[0-9][0-9][0-9][0-9]["-"][0-9][0-9]["-"][0-9][0-9]
+Id =  ( [_] | [-] | [$] )([:jletterdigit:] | [-] | [_] | [$] )+
 //Url =https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
 
 %{
@@ -157,6 +156,8 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 <YYINITIAL>     "["{Digitos}"]"     {return symbol(NUMERO,yytext());}
 
+<YYINITIAL> "["(({Id}"|")+) {Id}"]"  {System.out.println("ConjuntoDeEtiquetas:"+yytext());return symbol(CONJUNTO_DE_ETIQUETAS,yytext());}  
+
 <YYINITIAL>     "["{Id}"]" {return symbol(IDENTIFICADOR,yytext());}   
 
 <YYINITIAL>     "\""{Id}"\"" {return symbol(IDENTIFICADOR_COMILLA,yytext());}
@@ -165,11 +166,9 @@ Id = ({SignosEspeciales}+[:jletterdigit:]+)+
 
 //<YYINITIAL> "\""~"\""     {System.out.println("Oracion:"+yytext());return symbol(ORACION_ETIQUETA,yytext());}  
 
-//<YYINITIAL> "["({Id}"L")+ {Id}"]"     {System.out.println("ConjuntoDeEtiquetas:"+yytext());return symbol(CONJUNTO_DE_ETIQUETAS,yytext());}  
+<YYINITIAL> "["https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*"]" {System.out.println("URL"+yytext());return symbol(URL,yytext());}
 
 <YYINITIAL> "["~"]"     {System.out.println("Oracion:"+yytext());return symbol(ORACION,yytext());}  
-
-<YYINITIAL> ^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.* {System.out.println("URL"+yytext());return symbol(URL,yytext());}
 
 //<YYINITIAL>  ~"|"     {System.out.println("ETIQUETA_MENU:"+yytext());return symbol(ETIQUETA_MENU,yytext());}
 
