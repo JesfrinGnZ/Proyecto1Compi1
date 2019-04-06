@@ -17,8 +17,7 @@ import backend.elementos.Usuario;
 
 Salto = \r|\n|\r\n
 Espacio = {Salto} | [ \t\f]
-SignosEspeciales =["_"|"-"|"$"]
-Id = ({SignosEspeciales}+[:jletterdigit:]+)+
+Id = ( [_] | [-] | [$] )([:jletterdigit:] | [-] | [_] | [$] )+
 
 
 

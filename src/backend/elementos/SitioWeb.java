@@ -79,7 +79,6 @@ public class SitioWeb {
                 break;
             case "fechaCreacion":
                 if (this.fechaCreacion == null) {
-                    System.out.println(tipo);
                     if (Run.verificarSiFechaEsCorrecta(valor)) {
                         this.fechaCreacion = valor;
                         return true;

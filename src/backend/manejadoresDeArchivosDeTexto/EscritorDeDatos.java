@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class EscritorDeDatos {
 
     public static void escribirDatos(String texto) {
-        File direccionDeUsuarios = new File("/home/jesfrin/Documentos/Usuarios.txt");
+        File direccionDeUsuarios = new File("/home/jesfrin/Documentos/ArchivosP1Compi1/Usuarios.txt");
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(direccionDeUsuarios, true));
             bf.append(texto);

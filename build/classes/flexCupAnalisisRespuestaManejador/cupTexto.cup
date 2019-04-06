@@ -1,7 +1,7 @@
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 
-package backend.analizadorParaLogin;
+package backend.analizadorParaRespuestaServidor;
 import java_cup.runtime.*;
 import backend.elementos.Usuario;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ parser code {:
     Usuario usuario;
 
     // Connect this parser to a scanner!
-    public parser(AnalizadorLexicoUsuarios lex,ArrayList<Usuario> listaDeUsuarios) {
+    public parser(AnalizadorLexicoTextoServidor lex) {
 	super(lex);
         this.listaDeUsuarios=listaDeUsuarios;
 
@@ -35,22 +35,19 @@ parser code {:
 
 /*--------------- 2da Area: Declaraciones -----------------------*/
 
-terminal String         USUARIO,NOMBRE,PASSWORD,DIAGONAL,MENOR_QUE,MAYOR_QUE,ID,FORMATO_PASSWORD;
+terminal String         MENSAJES,MENSAJE,DIAGONAL,MENOR_QUE,MAYOR_QUE,ORACION;
 
-non terminal Object     usuarios,usuario, nombre,password;
+non terminal Object     mensajes,conjuntoDeMensajes,unMensaje;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-start with usuarios;
+start with mensajes;
 
-usuarios::= usuarios usuario | usuario;
+mensajes::= MENOR_QUE MENSAJES MAYOR_QUE conjuntoDeMensajes MENOR_QUE DIAGONAL MENSAJES MAYOR_QUE;
 
-usuario::=MENOR_QUE USUARIO MAYOR_QUE nombre password MENOR_QUE DIAGONAL USUARIO MAYOR_QUE;
+conjuntoDeMensajes::= conjuntoDeMensajes unMensaje | unMensaje;
 
-nombre::=MENOR_QUE NOMBRE MAYOR_QUE ID:i MENOR_QUE DIAGONAL NOMBRE MAYOR_QUE 
-{:usuario=new Usuario();usuario.setNombre(i.toString());RESULT=i;:};
+unMensaje::=MENOR_QUE MENSAJE MAYOR_QUE ORACION  MENOR_QUE DIAGONAL MENSAJE MAYOR_QUE;
 
-password::=MENOR_QUE PASSWORD MAYOR_QUE FORMATO_PASSWORD:i MENOR_QUE DIAGONAL PASSWORD MAYOR_QUE 
-{:usuario.setPassword(i.toString());listaDeUsuarios.add(usuario);:}; 
 
 
 

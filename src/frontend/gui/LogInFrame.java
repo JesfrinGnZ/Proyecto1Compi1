@@ -31,6 +31,7 @@ public class LogInFrame extends javax.swing.JFrame {
      */
     public LogInFrame() {
         initComponents();
+        setLocationRelativeTo(null);
         this.listaDeUsuarios = new ArrayList<>();
         usuario = new Usuario();
     }
@@ -262,14 +263,14 @@ public class LogInFrame extends javax.swing.JFrame {
 
     private void analizarTextoUsuarios() {//Llena la lista de usuarios segun analisis lexico y sintactico
         String instruccion = LectorDeDatos.leerDatos();
-            AnalizadorLexicoUsuarios lexico = new AnalizadorLexicoUsuarios(new BufferedReader(new StringReader(instruccion)));
-            parser sintactico = new parser(lexico, listaDeUsuarios);
-            try {
-                sintactico.parse();
-            } catch (Exception ex) {
-                // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("OCURRIO UN ERROR EN EL SINTACTICO");
-            }
+        AnalizadorLexicoUsuarios lexico = new AnalizadorLexicoUsuarios(new BufferedReader(new StringReader(instruccion)));
+        parser sintactico = new parser(lexico, listaDeUsuarios);
+        try {
+            sintactico.parse();
+        } catch (Exception ex) {
+            // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("OCURRIO UN ERROR EN EL SINTACTICO");
+        }
     }
 
     private boolean buscarUsuarioEspecifico(String id, String password) {
