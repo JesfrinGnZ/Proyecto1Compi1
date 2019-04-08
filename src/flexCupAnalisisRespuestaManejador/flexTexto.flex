@@ -34,7 +34,6 @@ Espacio = {Salto} | [ \t\f]
 %% //------------------>3er area<--------------------------    
   <YYINITIAL>  {
 
-    "mensajes" {return symbol(MENSAJES,yytext());}
 
     "mensaje"	{return symbol(MENSAJE,yytext());}				
 	

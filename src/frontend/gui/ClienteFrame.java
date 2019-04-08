@@ -7,11 +7,15 @@ package frontend.gui;
 
 import Run.Run;
 import backend.Conexion.Cliente;
+import backend.Conexion.Servidor;
+import backend.analizadorParaRespuestaServidor.AnalizadorLexicoTextoServidor;
 import backend.analizadorParaTextoDeCliente.AnalizadorLexicoTextoCliente;
 import backend.analizadorParaTextoDeCliente.parser;
 import backend.elementos.Usuario;
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,7 +25,7 @@ import javax.swing.text.BadLocationException;
  *
  * @author jesfrin
  */
-public class ClienteFrame extends javax.swing.JFrame {
+public class ClienteFrame extends javax.swing.JFrame implements Observer{
 
     private boolean seDebeEnviarElTexto;
     private String texto;
@@ -36,6 +40,11 @@ public class ClienteFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);//Configurando su posicion en el centro
         this.seDebeEnviarElTexto = true;
         this.texto="";
+        Servidor s = new Servidor(9000);
+        s.addObserver(this);
+        Thread t = new Thread(s);
+        t.start();
+        
     }
 
     /**
@@ -61,7 +70,7 @@ public class ClienteFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        servidorMensajesTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,10 +157,10 @@ public class ClienteFrame extends javax.swing.JFrame {
         jLabel4.setText("Respuestas del manejador");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 380, -1, -1));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("TlwgTypewriter", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        servidorMensajesTextArea.setColumns(20);
+        servidorMensajesTextArea.setFont(new java.awt.Font("TlwgTypewriter", 0, 14)); // NOI18N
+        servidorMensajesTextArea.setRows(5);
+        jScrollPane3.setViewportView(servidorMensajesTextArea);
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 420, 1080, 130));
 
@@ -173,13 +182,14 @@ public class ClienteFrame extends javax.swing.JFrame {
 
     private void enviarTextoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarTextoButtonActionPerformed
         this.erroresTextArea.setText("");
+        this.servidorMensajesTextArea.setText("");
         this.erroresTextArea.setText("******************Analisis iniciado******************\n");
         analizarTexto();
         this.erroresTextArea.append("******************Analisis finalizado******************\n");
         if (seDebeEnviarElTexto) {
             this.erroresTextArea.append("El analisis fue EXITOSO!!!!!! se ha enviado las instrucciones");
             System.out.println("///////////////////////"+"\n"+this.texto);
-            Cliente c =new Cliente(5000, this.texto);
+            Cliente c =new Cliente(6000, this.texto);
             Thread t = new Thread(c);
             t.start();
             this.texto="";
@@ -214,9 +224,9 @@ public class ClienteFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel numeroDeColumnaLabel;
     private javax.swing.JLabel numeroDeFilaLabel;
+    private javax.swing.JTextArea servidorMensajesTextArea;
     private javax.swing.JTextArea textoDeClienteTextArea;
     // End of variables declaration//GEN-END:variables
 
@@ -272,6 +282,24 @@ public class ClienteFrame extends javax.swing.JFrame {
         this.seDebeEnviarElTexto=false;
         this.erroresTextArea.append(mensaje + "\n");
         this.texto="";
+    }
+    
+    public void anadirMensajesDeRespuesta(String mensaje){
+        String mensaje1 = mensaje.substring(1,mensaje.length()-1);
+        this.servidorMensajesTextArea.append(mensaje1+"\n");
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String mensaje =(String)arg;
+        System.out.println("MENSAJE DE POSIBLES ERRORES:"+mensaje);
+        AnalizadorLexicoTextoServidor lex = new AnalizadorLexicoTextoServidor(new BufferedReader(new StringReader(mensaje)));
+        backend.analizadorParaRespuestaServidor.parser sintactico  = new backend.analizadorParaRespuestaServidor.parser(lex,this);
+        try {
+            sintactico.parse();
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

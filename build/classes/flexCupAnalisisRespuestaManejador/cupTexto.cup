@@ -9,13 +9,12 @@ import frontend.gui.*;
 
 parser code {:
 
-    ArrayList<Usuario> listaDeUsuarios;
-    Usuario usuario;
+    ClienteFrame clienteFrame;
 
     // Connect this parser to a scanner!
-    public parser(AnalizadorLexicoTextoServidor lex) {
+    public parser(AnalizadorLexicoTextoServidor lex,ClienteFrame clienteFrame) {
 	super(lex);
-        this.listaDeUsuarios=listaDeUsuarios;
+        this.clienteFrame=clienteFrame;
 
     }
 
@@ -35,18 +34,19 @@ parser code {:
 
 /*--------------- 2da Area: Declaraciones -----------------------*/
 
-terminal String         MENSAJES,MENSAJE,DIAGONAL,MENOR_QUE,MAYOR_QUE,ORACION;
+terminal String         MENSAJE,DIAGONAL,MENOR_QUE,MAYOR_QUE,ORACION;
 
 non terminal Object     mensajes,conjuntoDeMensajes,unMensaje;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-start with mensajes;
-
-mensajes::= MENOR_QUE MENSAJES MAYOR_QUE conjuntoDeMensajes MENOR_QUE DIAGONAL MENSAJES MAYOR_QUE;
+start with conjuntoDeMensajes;
 
 conjuntoDeMensajes::= conjuntoDeMensajes unMensaje | unMensaje;
 
-unMensaje::=MENOR_QUE MENSAJE MAYOR_QUE ORACION  MENOR_QUE DIAGONAL MENSAJE MAYOR_QUE;
+unMensaje::=MENOR_QUE MENSAJE MAYOR_QUE ORACION:i  MENOR_QUE DIAGONAL MENSAJE MAYOR_QUE 
+            {:
+              clienteFrame.anadirMensajesDeRespuesta(i);
+            :};
 
 
 

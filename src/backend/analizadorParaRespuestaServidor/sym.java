@@ -8,18 +8,16 @@ package backend.analizadorParaRespuestaServidor;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int MAYOR_QUE = 6;
-  public static final int MENOR_QUE = 5;
-  public static final int DIAGONAL = 4;
+  public static final int MAYOR_QUE = 5;
+  public static final int MENOR_QUE = 4;
+  public static final int DIAGONAL = 3;
   public static final int error = 1;
-  public static final int ORACION = 7;
-  public static final int MENSAJES = 2;
+  public static final int ORACION = 6;
   public static final int EOF = 0;
-  public static final int MENSAJE = 3;
+  public static final int MENSAJE = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "MENSAJES",
   "MENSAJE",
   "DIAGONAL",
   "MENOR_QUE",

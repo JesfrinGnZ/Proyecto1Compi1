@@ -53,10 +53,10 @@ public class AnalizadorLexicoTextoServidor implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\2\2\1\1\1\3\1\4\1\5\1\1"+
-    "\2\0\1\6\4\0\1\7\1\10";
+    "\2\0\1\6\4\0\1\7";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[18];
+    int [] result = new int[17];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -83,10 +83,10 @@ public class AnalizadorLexicoTextoServidor implements java_cup.runtime.Scanner {
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\17\0\36\0\17\0\55\0\17\0\17\0\17"+
     "\0\74\0\113\0\74\0\17\0\132\0\151\0\170\0\207"+
-    "\0\226\0\17";
+    "\0\17";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[18];
+    int [] result = new int[17];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -112,10 +112,10 @@ public class AnalizadorLexicoTextoServidor implements java_cup.runtime.Scanner {
     "\1\2\1\3\2\4\1\5\5\2\1\6\1\7\1\10"+
     "\1\11\1\2\21\0\1\4\21\0\1\12\11\0\16\13"+
     "\1\14\6\0\1\15\17\0\1\16\17\0\1\17\17\0"+
-    "\1\20\12\0\1\21\20\0\1\22\7\0";
+    "\1\20\12\0\1\21\11\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[165];
+    int [] result = new int[150];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -154,10 +154,10 @@ public class AnalizadorLexicoTextoServidor implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\1\0\1\11\1\1\1\11\1\1\3\11\1\1\2\0"+
-    "\1\11\4\0\1\1\1\11";
+    "\1\11\4\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[18];
+    int [] result = new int[17];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -631,42 +631,37 @@ public class AnalizadorLexicoTextoServidor implements java_cup.runtime.Scanner {
             { /*Ignoramos*/System.out.println("Error:"+yytext());
             } 
             // fall through
-          case 9: break;
+          case 8: break;
           case 2: 
             { /*IGNORAMOS*/
             } 
             // fall through
-          case 10: break;
+          case 9: break;
           case 3: 
             { return symbol(DIAGONAL,yytext());
             } 
             // fall through
-          case 11: break;
+          case 10: break;
           case 4: 
             { return symbol(MENOR_QUE,yytext());
             } 
             // fall through
-          case 12: break;
+          case 11: break;
           case 5: 
             { return symbol(MAYOR_QUE,yytext());
             } 
             // fall through
-          case 13: break;
+          case 12: break;
           case 6: 
             { return symbol(ORACION,yytext());
             } 
             // fall through
-          case 14: break;
+          case 13: break;
           case 7: 
             { return symbol(MENSAJE,yytext());
             } 
             // fall through
-          case 15: break;
-          case 8: 
-            { return symbol(MENSAJES,yytext());
-            } 
-            // fall through
-          case 16: break;
+          case 14: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

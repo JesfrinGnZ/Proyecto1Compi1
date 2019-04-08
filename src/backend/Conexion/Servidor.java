@@ -20,14 +20,13 @@ import java.util.logging.Logger;
  */
 public class Servidor extends Observable implements Runnable {
 
-    private final ServerSocket servidor;
+    private ServerSocket servidor;
     private Socket sc;
-    private  int puerto;
+    private int puerto;
     private DataInputStream in;
 
-    public Servidor(int puerto) throws IOException {
+    public Servidor(int puerto) {
         this.puerto = puerto;
-        this.servidor = new ServerSocket(this.puerto);
 
     }
 
@@ -40,9 +39,10 @@ public class Servidor extends Observable implements Runnable {
         }
     }
 
-    public void iniciarServidor() throws IOException {
+    private void iniciarServidor() throws IOException {
         System.out.println("SERVIDOR INICIADO");
         //Siempre estara escuchando peticiones 
+        this.servidor = new ServerSocket(this.puerto);
         while (true) {
             this.sc = servidor.accept();
             System.out.println("Cliente conectado");

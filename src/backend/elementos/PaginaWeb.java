@@ -37,7 +37,6 @@ public class PaginaWeb {
             String etiquetas = "<etiquetas>\n" + conjuntoDeEtiquetas + "\n</etiquetas>\n";
             return "<accion nombre =\"MODIFICAR_PAGINA\">\n<parametros>\n" + parametros + "</parametros>\n" + etiquetas + "</accion>";
         }
-        
 
     }
 
@@ -50,11 +49,16 @@ public class PaginaWeb {
     public String generarTextoCreacion(ClienteFrame clienteFrame, ArrayList<Token> listaDeEtiquetas) {
         String parametros = "<parametro nombre =\"ID\">[" + this.id + "]</parametro>\n";
         parametros += "<parametro nombre =\"SITIO\">[" + this.sitio + "]</parametro>\n";
-        parametros += "<parametro nombre =\"PADRE\">[" + this.padre + "]</parametro>\n";
+        //parametros += "<parametro nombre =\"PADRE\">[" + this.padre + "]</parametro>\n";
         if (this.titulo != null) {
             parametros += "<parametro nombre =\"TITULO\">[" + this.titulo + "]</parametro>\n";
         } else {
             parametros += "<parametro nombre =\"TITULO\">[" + "Titulo_sin_especificar" + "]</parametro>\n";
+        }
+        if (this.padre == null) {
+            parametros += "<parametro nombre =\"PADRE\">[" + this.sitio + "]</parametro>\n";
+        } else {
+            parametros += "<parametro nombre =\"PADRE\">[" + this.padre + "]</parametro>\n";
         }
 
         if (this.usuarioCreacion != null) {
@@ -207,7 +211,7 @@ public class PaginaWeb {
      * @throws backend.excepciones.FaltaDeAtributoObligatorioException
      */
     public void verificarDatosObligatoriosParaCreacion() throws FaltaDeAtributoObligatorioException {
-        if (this.id == null || this.sitio == null || this.padre == null) {
+        if (this.id == null || this.sitio == null) {
             throw new FaltaDeAtributoObligatorioException();
         }
     }
@@ -232,11 +236,10 @@ public class PaginaWeb {
     public void verificarDatosObligatoriosParaModificar(ArrayList<Token> listaDeAtributos) throws FaltaDeAtributoObligatorioException {
         if (this.id == null) {
             throw new FaltaDeAtributoObligatorioException();
-        }else if(this.titulo==null && (listaDeAtributos==null || listaDeAtributos.isEmpty())){//No trae titulo ni etiqueta
+        } else if (this.titulo == null && (listaDeAtributos == null || listaDeAtributos.isEmpty())) {//No trae titulo ni etiqueta
             throw new FaltaDeAtributoObligatorioException();
         }
     }
-
 
     public static void analisisDeCreacionDePaginaWeb(Token tipo, ArrayList<Token> listaDeTokens, ClienteFrame clienteFrame, ArrayList<Token> listaDeEtiquetas) {
         PaginaWeb nuevaPagina = new PaginaWeb();
@@ -247,7 +250,7 @@ public class PaginaWeb {
         }
         try {
             nuevaPagina.verificarDatosObligatoriosParaCreacion();//Se verifica si estan los datos obligatorios
-            clienteFrame.concatenarTexto(nuevaPagina.generarTextoCreacion(clienteFrame,listaDeEtiquetas));//Se concatena el texto que se enviara a el manejador
+            clienteFrame.concatenarTexto(nuevaPagina.generarTextoCreacion(clienteFrame, listaDeEtiquetas));//Se concatena el texto que se enviara a el manejador
         } catch (FaltaDeAtributoObligatorioException ex) {
             clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
         }
@@ -276,8 +279,8 @@ public class PaginaWeb {
             }
         }
         try {
-                nuevaPagina.verificarDatosObligatoriosParaModificar(listaDeEtiquetas);
-                clienteFrame.concatenarTexto(nuevaPagina.generarTextoModificacion(listaDeEtiquetas));
+            nuevaPagina.verificarDatosObligatoriosParaModificar(listaDeEtiquetas);
+            clienteFrame.concatenarTexto(nuevaPagina.generarTextoModificacion(listaDeEtiquetas));
         } catch (FaltaDeAtributoObligatorioException ex) {
             clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
         }
