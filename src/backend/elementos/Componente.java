@@ -20,7 +20,7 @@ public class Componente {
     public String generarTextoEliminacion() {
         String parametros = "<parametro nombre =\"ID\">[" + this.id + "]</parametro>\n";
         parametros += "<parametro nombre =\"PAGINA\">[" + this.pagina + "]</parametro>\n";
-        return "<accion nombre =\"NUEVA_PAGINA\">\n<parametros>\n" + parametros + "</parametros>\n</accion>";
+        return "<accion nombre =\"BORRAR_COMPONENTE\">\n<parametros>\n" + parametros + "</parametros>\n</accion>";
     }
 
     public String generarTextoCreacion_Modificacion(String atributos, String tipo) {
@@ -152,6 +152,7 @@ public class Componente {
         }
         try {
             componente.verificarDatosObligatoriosParaEliminacion();//Se verifica si estan los datos obligatorios
+            clienteFrame.concatenarTexto(componente.generarTextoEliminacion());
         } catch (FaltaDeAtributoObligatorioException ex) {
             clienteFrame.mostrarErrorSintactico("Error SINTACTICO faltan datos obligatorios en Linea" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
         }

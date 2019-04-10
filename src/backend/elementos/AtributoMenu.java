@@ -20,10 +20,12 @@ public class AtributoMenu {
     public AtributoMenu() {
     }
 
-    
-    
     public String generarTextoCreacion() {
-        String parametros = "<atributo nombre =\"PADRE\">[" + this.padre + "]</atributo>\n";
+        String parametros="";
+        if (this.padre != null) {
+            parametros = "<atributo nombre =\"PADRE\">[" + this.padre + "]</atributo>\n";
+
+        }
         if (this.etiqetas != null) {
             parametros += "<atributo nombre =\"ETIQUETAS\">[" + this.etiqetas + "]</atributo>\n";
         }
@@ -49,17 +51,17 @@ public class AtributoMenu {
     }
 
     public void verificarDatosObligatorios() throws FaltaDeAtributoObligatorioException {
-        if (this.padre == null) {
+        if (this.padre == null && this.etiqetas == null) {
             throw new FaltaDeAtributoObligatorioException();
         }
     }
 
-        public static String analisisDeTitulo(Token tipo, ArrayList<Token> listaDeAtributos, ClienteFrame clienteFrame) {
+    public static String analisisDeTitulo(Token tipo, ArrayList<Token> listaDeAtributos, ClienteFrame clienteFrame) {
         AtributoMenu nuevoMenu = new AtributoMenu();
         for (Token token : listaDeAtributos) {//Se recorre la lista de tokens encontrados verificando si hay repetidos
             if (!(nuevoMenu.darValores(token.getLexema(), token.getTipo()))) {
                 clienteFrame.mostrarError("repetido o incorrecto", token.getLinea(), token.getColumna(), token.getTipo());
-                
+
             }
         }
         try {
