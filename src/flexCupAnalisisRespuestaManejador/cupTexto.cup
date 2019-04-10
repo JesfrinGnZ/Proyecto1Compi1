@@ -20,12 +20,12 @@ parser code {:
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s){        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
    
@@ -36,7 +36,7 @@ parser code {:
 
 terminal String         MENSAJE,DIAGONAL,MENOR_QUE,MAYOR_QUE,ORACION;
 
-non terminal Object     mensajes,conjuntoDeMensajes,unMensaje;
+non terminal Object     conjuntoDeMensajes,unMensaje;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
 start with conjuntoDeMensajes;

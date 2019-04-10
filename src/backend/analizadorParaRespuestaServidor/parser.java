@@ -34,8 +34,8 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\004\000\002\002\004\000\002\003\004\000\002\003" +
-    "\003\000\002\004\012" });
+    "\000\004\000\002\002\004\000\002\002\004\000\002\002" +
+    "\003\000\002\003\012" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -57,8 +57,8 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\015\000\006\003\005\004\003\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\004\006\001\001\000\002" +
+    "\000\015\000\006\002\005\003\003\001\001\000\002\001" +
+    "\001\000\002\001\001\000\004\003\006\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001" });
@@ -112,12 +112,12 @@ public class parser extends java_cup.runtime.lr_parser {
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s){        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
    
@@ -167,7 +167,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("conjuntoDeMensajes",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("conjuntoDeMensajes",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -176,7 +176,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("conjuntoDeMensajes",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("conjuntoDeMensajes",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -190,7 +190,7 @@ class CUP$parser$actions {
 		
               clienteFrame.anadirMensajesDeRespuesta(i);
             
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("unMensaje",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("unMensaje",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 

@@ -128,12 +128,12 @@ public class parser extends java_cup.runtime.lr_parser {
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s){        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{        
-        System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
+        //System.out.println("ERROR SINTACTICO LOGIN"+s.value.toString());
     }
 
    

@@ -70,7 +70,7 @@ public class ManejadorDeExpresiones {
                 clienteFrame.mostrarErrorSintactico("Error SINTACTICO accion no puede contener etiquetas Linea:" + tipo.getLinea() + " " + "Columna:" + tipo.getColumna());
                 break;
             default:
-                System.out.println("TIPO NO VIENE BIEN"+tipo.getTipo());
+                //System.out.println("TIPO NO VIENE BIEN"+tipo.getTipo());
                 break;
         }
     }

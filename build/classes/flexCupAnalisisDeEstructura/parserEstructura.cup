@@ -102,11 +102,11 @@ acciones::= MENOR_QUE ACCIONES MAYOR_QUE conjuntoDeAcciones MENOR_QUE DIAGONAL A
 conjuntoDeAcciones::= conjuntoDeAcciones unaAccion | unaAccion;
 
 unaAccion::=cabecera:i cuerpo fin
-            {:System.out.println("CABECERA ES DE TIPO:"+i);
+            {:
             Token accion= new Token(i.toString(),i.toString(),ileft,iright);
             ManejadorDeExpresiones.manejarExpresionSinEtiquetasNiAtributos(accion,listaDeTokens,clienteFrame);
             listaDeTokens=new ArrayList<>();
-            System.out.println("ESTRUCTURA SIN ATRIBUTOS NI ETIQUETAS");
+            
             :}|
 
             cabecera:i cuerpo etiquetas fin
@@ -114,7 +114,6 @@ unaAccion::=cabecera:i cuerpo fin
             ManejadorDeExpresiones.manejarExpresionConEtiquetas(accion,listaDeTokens,clienteFrame,listaDeEtiquetas);
             listaDeTokens=new ArrayList<>();
             listaDeEtiquetas=new ArrayList<>();
-            System.out.println("ESTRUCTURA CON ETIQUETAS");
             :}|
             
             cabecera:i cuerpo atributos fin
@@ -122,9 +121,8 @@ unaAccion::=cabecera:i cuerpo fin
             ManejadorDeExpresiones.manejarExpresionConAtributos(accion,listaDeTokens,clienteFrame,listaDeAtributos);
             listaDeTokens=new ArrayList<>();
             listaDeAtributos=new ArrayList<>();
-            System.out.println("ESTRUCTURA CON ATRIBUTOS");
             :}|
-            error{:System.out.println("ERRRRRRRRRRRRRRRRRRRRRRRROOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRR");listaDeTokens=new ArrayList<>();
+            error{:listaDeTokens=new ArrayList<>();
             listaDeEtiquetas=new ArrayList<>();:};
 
 fin::= MENOR_QUE DIAGONAL ACCION MAYOR_QUE;
@@ -151,7 +149,7 @@ cuerpo ::= MENOR_QUE PARAMETROS MAYOR_QUE conjuntoDeParametros MENOR_QUE DIAGONA
 conjuntoDeParametros::= conjuntoDeParametros unParametro | unParametro;
 
 unParametro::= MENOR_QUE PARAMETRO NOMBRE IGUAL  COMILLA ID:i  COMILLA MAYOR_QUE  IDENTIFICADOR:t  MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
-               {:RESULT=t;System.out.println(t+" "+tleft+" "+tright);listaDeTokens.add(new Token("id",ManejadorDeExpresiones.recomponerTexto(t.toString()),tleft,tright));:}|
+               {:RESULT=t;listaDeTokens.add(new Token("id",ManejadorDeExpresiones.recomponerTexto(t.toString()),tleft,tright));:}|
                
                MENOR_QUE PARAMETRO NOMBRE IGUAL  COMILLA USUARIO_CREACION:i  COMILLA MAYOR_QUE  IDENTIFICADOR:t  MENOR_QUE DIAGONAL PARAMETRO MAYOR_QUE
                {:RESULT=t;listaDeTokens.add(new Token("usuarioCreacion",ManejadorDeExpresiones.recomponerTexto(t.toString()),tleft,tright));:}|

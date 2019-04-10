@@ -269,7 +269,7 @@ public class LogInFrame extends javax.swing.JFrame {
             sintactico.parse();
         } catch (Exception ex) {
             // Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("OCURRIO UN ERROR EN EL SINTACTICO");
+            //System.out.println("OCURRIO UN ERROR EN EL SINTACTICO");
         }
     }
 

@@ -5,15 +5,9 @@
  */
 package Run;
 
-import backend.Conexion.Cliente;
-import backend.elementos.Usuario;
-import frontend.gui.ClienteFrame;
 import frontend.gui.LogInFrame;
-import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -26,12 +20,6 @@ public class Run {
         LogInFrame logIn = new LogInFrame();
         logIn.setVisible(true);
 
-        /*
-            Usuario usuario = new Usuario("Usuario", "1234");
-            ClienteFrame frame = new ClienteFrame(usuario);
-            frame.setVisible(true);
-         */
-      
     }
 
     public static boolean verificarSiFechaEsCorrecta(String fecha) {

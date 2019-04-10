@@ -50,7 +50,7 @@ Espacio = {Salto} | [ \t\f]
 
 //<<EOF>>                 { return symbol(EOF);
 
-[^]     {/*Ignoramos*/System.out.println("Error:"+yytext());}
+[^]     {/*Ignoramos System.out.println("Error:"+yytext());*/}
 
 
 

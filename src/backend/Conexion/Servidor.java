@@ -6,7 +6,6 @@
 package backend.Conexion;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,22 +39,22 @@ public class Servidor extends Observable implements Runnable {
     }
 
     private void iniciarServidor() throws IOException {
-        System.out.println("SERVIDOR INICIADO");
+        //System.out.println("SERVIDOR INICIADO");
         //Siempre estara escuchando peticiones 
         this.servidor = new ServerSocket(this.puerto);
         while (true) {
             this.sc = servidor.accept();
-            System.out.println("Cliente conectado");
+            //System.out.println("Cliente conectado");
             in = new DataInputStream(sc.getInputStream());//Para lectura de mensajes
             String mensaje = in.readUTF();
-            System.out.println(mensaje);
+            //System.out.println(mensaje);
             //Informar de actualizacion
             this.setChanged();
             this.notifyObservers(mensaje);
             this.clearChanged();
             //Se cierra el flujo
             sc.close();
-            System.out.println("Cliente desconectado");
+            //System.out.println("Cliente desconectado");
         }
     }
 

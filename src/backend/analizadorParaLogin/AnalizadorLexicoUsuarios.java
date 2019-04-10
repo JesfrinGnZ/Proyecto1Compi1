@@ -775,7 +775,7 @@ public class AnalizadorLexicoUsuarios implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { /*Ignoramos*/System.out.println("Error:"+yytext());
+            { /*Ignoramos System.out.println("Error:"+yytext());*/
             } 
             // fall through
           case 11: break;

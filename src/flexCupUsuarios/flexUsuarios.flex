@@ -51,23 +51,15 @@ Id = ( [_] | [-] | [$] )([:jletterdigit:] | [-] | [_] | [$] )+
 
     {Id}   {return symbol(ID,yytext());}
 
- //   "["(({Id}"\|")+) {Id}"]" {System.out.println("Etiquetas conjuntas:"+yytext());}
 
    "["~"]" {return symbol(FORMATO_PASSWORD,yytext());}
 
-
-
-//    "#"([a-fA-F]|[0-9]){6} {System.out.println("Codigo color:"+yytext());}
-
-//    "["~"]"     {System.out.println("Oracion:"+yytext());}
-
-//    ^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$    {System.out.println("URL:"+yytext());}
 
 {Espacio} 	{/*IGNORAMOS*/}
 }
 
 //<<EOF>>                 { return symbol(EOF);
 
-[^]     {/*Ignoramos*/System.out.println("Error:"+yytext());}
+[^]     {/*Ignoramos System.out.println("Error:"+yytext());*/}
 
 

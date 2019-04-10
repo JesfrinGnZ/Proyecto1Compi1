@@ -61,6 +61,7 @@ public class ClienteFrame extends javax.swing.JFrame implements Observer{
         enviarTextoButton = new javax.swing.JButton();
         numeroDeColumnaLabel = new javax.swing.JLabel();
         numeroDeFilaLabel = new javax.swing.JLabel();
+        borrarButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         textoDeClienteTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -90,19 +91,28 @@ public class ClienteFrame extends javax.swing.JFrame implements Observer{
         numeroDeFilaLabel.setFont(new java.awt.Font("TlwgTypewriter", 0, 18)); // NOI18N
         numeroDeFilaLabel.setText("#Linea");
 
+        borrarButton.setText("Borrar");
+        borrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(enviarTextoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(numeroDeFilaLabel)
                     .addComponent(numeroDeColumnaLabel))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(enviarTextoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                    .addComponent(borrarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,7 +123,9 @@ public class ClienteFrame extends javax.swing.JFrame implements Observer{
                 .addComponent(numeroDeColumnaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(enviarTextoButton)
-                .addGap(41, 41, 41))
+                .addGap(18, 18, 18)
+                .addComponent(borrarButton)
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 130, -1));
@@ -188,7 +200,6 @@ public class ClienteFrame extends javax.swing.JFrame implements Observer{
         this.erroresTextArea.append("******************Analisis finalizado******************\n");
         if (seDebeEnviarElTexto) {
             this.erroresTextArea.append("El analisis fue EXITOSO!!!!!! se ha enviado las instrucciones");
-            System.out.println("///////////////////////"+"\n"+this.texto);
             Cliente c =new Cliente(6000, this.texto);
             Thread t = new Thread(c);
             t.start();
@@ -212,7 +223,12 @@ public class ClienteFrame extends javax.swing.JFrame implements Observer{
         }
     }//GEN-LAST:event_textoDeClienteTextAreaCaretUpdate
 
+    private void borrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarButtonActionPerformed
+        this.textoDeClienteTextArea.setText("");
+    }//GEN-LAST:event_borrarButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton borrarButton;
     private javax.swing.JButton enviarTextoButton;
     private javax.swing.JTextArea erroresTextArea;
     private javax.swing.JLabel jLabel1;
@@ -292,7 +308,6 @@ public class ClienteFrame extends javax.swing.JFrame implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         String mensaje =(String)arg;
-        System.out.println("MENSAJE DE POSIBLES ERRORES:"+mensaje);
         AnalizadorLexicoTextoServidor lex = new AnalizadorLexicoTextoServidor(new BufferedReader(new StringReader(mensaje)));
         backend.analizadorParaRespuestaServidor.parser sintactico  = new backend.analizadorParaRespuestaServidor.parser(lex,this);
         try {
