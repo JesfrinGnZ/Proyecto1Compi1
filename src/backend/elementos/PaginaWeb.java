@@ -28,11 +28,11 @@ public class PaginaWeb {
             parametros += "<parametro nombre =\"TITULO\">[" + this.titulo + "]</parametro>\n";
         }
         if (listaDeEtiquetas == null || listaDeEtiquetas.isEmpty()) {
-            return "<accion nombre =\"NUEVA_PAGINA\">\n<parametros>\n" + parametros + "</parametros>\n</accion>";
+            return "<accion nombre =\"MODIFICAR_PAGINA\">\n<parametros>\n" + parametros + "</parametros>\n</accion>";
         } else {
             String conjuntoDeEtiquetas = "";
             for (Token etiqueta : listaDeEtiquetas) {
-                conjuntoDeEtiquetas += "<etiqueta valor =\"" + etiqueta.getLexema() + "\"/>\n";
+                conjuntoDeEtiquetas += "<etiqueta valor =" + etiqueta.getLexema() + "/>\n";
             }
             String etiquetas = "<etiquetas>\n" + conjuntoDeEtiquetas + "\n</etiquetas>\n";
             return "<accion nombre =\"MODIFICAR_PAGINA\">\n<parametros>\n" + parametros + "</parametros>\n" + etiquetas + "</accion>";
@@ -90,7 +90,7 @@ public class PaginaWeb {
         } else {
             String conjuntoDeEtiquetas = "";
             for (Token etiqueta : listaDeEtiquetas) {
-                conjuntoDeEtiquetas += "<etiqueta valor =\"" + etiqueta.getLexema() + "\"/>\n";
+                conjuntoDeEtiquetas += "<etiqueta valor =" + etiqueta.getLexema() + "/>\n";
             }
             String etiquetas = "<etiquetas>\n" + conjuntoDeEtiquetas + "</etiquetas>\n";
             return "<accion nombre =\"NUEVA_PAGINA\">\n<parametros>\n" + parametros + "</parametros>\n" + etiquetas + "</accion>";
